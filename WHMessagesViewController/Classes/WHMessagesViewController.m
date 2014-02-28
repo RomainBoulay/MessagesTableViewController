@@ -442,7 +442,17 @@
 
 #pragma mark - Memory
 - (void)dealloc {
-    [self.messageInputView.textView removeObserver:self forKeyPath:@"contentSize"];
+#warning FIX ME
+    @try {
+        [self.messageInputView.textView removeObserver:self forKeyPath:@"contentSize"];
+    }
+    @catch (NSException *exception) {
+        NSLog(@"%@", exception);
+    }
+    @finally {
+        NSLog(@"@finally");
+    }
+    
     _messageDelegate = nil;
     _messageDataSource = nil;
     _messageInputView = nil;

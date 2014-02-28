@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		331BFAE618C0FDDC00D902B3 /* WHSimpleMessageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 331BFAE518C0FDDC00D902B3 /* WHSimpleMessageCell.m */; };
+		331BFAE818C0FDEA00D902B3 /* WHSimpleMessageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 331BFAE718C0FDEA00D902B3 /* WHSimpleMessageCell.xib */; };
 		339917DA18C0F1E4001B4E68 /* WHDemoMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 339917D918C0F1E4001B4E68 /* WHDemoMessage.m */; };
 		33FFB88B18C0F81000BF818C /* WHDemoBubbleMessageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 33FFB88818C0F81000BF818C /* WHDemoBubbleMessageCell.m */; };
 		33FFB88C18C0F81000BF818C /* WHDemoBubbleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 33FFB88A18C0F81000BF818C /* WHDemoBubbleView.m */; };
@@ -93,6 +95,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		331BFAE418C0FDDC00D902B3 /* WHSimpleMessageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WHSimpleMessageCell.h; sourceTree = "<group>"; };
+		331BFAE518C0FDDC00D902B3 /* WHSimpleMessageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WHSimpleMessageCell.m; sourceTree = "<group>"; };
+		331BFAE718C0FDEA00D902B3 /* WHSimpleMessageCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WHSimpleMessageCell.xib; sourceTree = "<group>"; };
 		339917D818C0F1E4001B4E68 /* WHDemoMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WHDemoMessage.h; sourceTree = "<group>"; };
 		339917D918C0F1E4001B4E68 /* WHDemoMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WHDemoMessage.m; sourceTree = "<group>"; };
 		33FFB88718C0F81000BF818C /* WHDemoBubbleMessageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WHDemoBubbleMessageCell.h; sourceTree = "<group>"; };
@@ -401,6 +406,9 @@
 				88A3FB59182E079E00705327 /* WHAppDelegate.m */,
 				88A3FB61182E079E00705327 /* WHDemoViewController.h */,
 				88A3FB62182E079E00705327 /* WHDemoViewController.m */,
+				331BFAE418C0FDDC00D902B3 /* WHSimpleMessageCell.h */,
+				331BFAE518C0FDDC00D902B3 /* WHSimpleMessageCell.m */,
+				331BFAE718C0FDEA00D902B3 /* WHSimpleMessageCell.xib */,
 				88A3FB64182E079E00705327 /* Images.xcassets */,
 				88A3FB50182E079E00705327 /* Supporting Files */,
 			);
@@ -553,6 +561,7 @@
 				33FFB8D318C0F91700BF818C /* bubble-classic-green.png in Resources */,
 				33FFB8DB18C0F91700BF818C /* bubble-classic-square-gray.png in Resources */,
 				33FFB8DA18C0F91700BF818C /* bubble-classic-square-blue@2x.png in Resources */,
+				331BFAE818C0FDEA00D902B3 /* WHSimpleMessageCell.xib in Resources */,
 				33FFB8F218C0F91700BF818C /* send-button@2x.png in Resources */,
 				33FFB8F118C0F91700BF818C /* send-button.png in Resources */,
 				33FFB8F618C0F91700BF818C /* input-bar-flat@2x.png in Resources */,
@@ -652,6 +661,7 @@
 				33FFB88B18C0F81000BF818C /* WHDemoBubbleMessageCell.m in Sources */,
 				33FFB89918C0F8A300BF818C /* UIColor+WHMessagesView.m in Sources */,
 				88A3FC59182E0EA000705327 /* NSString+WHMessagesView.m in Sources */,
+				331BFAE618C0FDDC00D902B3 /* WHSimpleMessageCell.m in Sources */,
 				33FFB88C18C0F81000BF818C /* WHDemoBubbleView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

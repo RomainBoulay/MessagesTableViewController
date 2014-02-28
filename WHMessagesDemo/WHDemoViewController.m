@@ -19,6 +19,7 @@
 #import "WHDemoBubbleView.h"
 #import "WHDemoAvatarImageFactory.h"
 #import "WHDemoBubbleMessageCell.h"
+#import "WHSimpleMessageCell.h"
 
 #define kSubtitleJobs @"Jobs"
 #define kSubtitleWoz @"Steve Wozniak"
@@ -35,35 +36,37 @@
     [super viewDidLoad];
     
     [[WHDemoBubbleView appearance] setFont:[UIFont systemFontOfSize:16.0f]];
-
+    
     [self setBackgroundColor:[UIColor backgroundColorClassic]];
-
+    
     [[WHDemoBubbleView appearance] setFont:[UIFont systemFontOfSize:16.0f]];
-
+    
     self.title = @"Messages";
     self.messageInputView.textView.placeHolder = @"New Message";
     self.sender = @"Jobs";
-
+    
     [self setBackgroundColor:[UIColor whiteColor]];
-
+    
     self.messages = [[NSMutableArray alloc] initWithObjects:
-            [[WHDemoMessage alloc] initWithText:@"WHMessagesViewController is simple and easy to use." sender:kSubtitleJobs date:[NSDate distantPast]],
-            [[WHDemoMessage alloc] initWithText:@"It's highly customizable." sender:kSubtitleWoz date:[NSDate distantPast]],
-            [[WHDemoMessage alloc] initWithText:@"It even has data detectors. You can call me tonight. My cell number is 452-123-4567. \nMy website is www.hexedbits.com." sender:kSubtitleJobs date:[NSDate distantPast]],
-            [[WHDemoMessage alloc] initWithText:@"Group chat. Sound effects and images included. Animations are smooth. Messages can be of arbitrary size!" sender:kSubtitleCook date:[NSDate distantPast]],
-            [[WHDemoMessage alloc] initWithText:@"Group chat. Sound effects and images included. Animations are smooth. Messages can be of arbitrary size!" sender:kSubtitleJobs date:[NSDate date]],
-            [[WHDemoMessage alloc] initWithText:@"Group chat. Sound effects and images included. Animations are smooth. Messages can be of arbitrary size!" sender:kSubtitleWoz date:[NSDate date]],
-            nil];
-
-
+                     [[WHDemoMessage alloc] initWithText:@"WHMessagesViewController is simple and easy to use." sender:kSubtitleJobs date:[NSDate distantPast]],
+                     [[WHDemoMessage alloc] initWithText:@"It's highly customizable." sender:kSubtitleWoz date:[NSDate distantPast]],
+                     [[WHDemoMessage alloc] initWithText:@"It even has data detectors. You can call me tonight. My cell number is 452-123-4567. \nMy website is www.hexedbits.com." sender:kSubtitleJobs date:[NSDate distantPast]],
+                     [[WHDemoMessage alloc] initWithText:@"Group chat. Sound effects and images included. Animations are smooth. Messages can be of arbitrary size!" sender:kSubtitleCook date:[NSDate distantPast]],
+                     [[WHDemoMessage alloc] initWithText:@"Group chat. Sound effects and images included. Animations are smooth. Messages can be of arbitrary size!" sender:kSubtitleJobs date:[NSDate date]],
+                     [[WHDemoMessage alloc] initWithText:@"Group chat. Sound effects and images included. Animations are smooth. Messages can be of arbitrary size!" sender:kSubtitleWoz date:[NSDate date]],
+                     nil];
+    
+    
     for (NSUInteger i = 0; i < 3; i++) {
-        [self.messages addObjectsFromArray:self.messages];
+        for (WHDemoMessage *m in [self.messages copy]) {
+            [self.messages addObject:[m copy]];
+        }
     }
-
+    
     self.avatars = @{kSubtitleJobs: [WHDemoAvatarImageFactory avatarImageNamed:@"demo-avatar-jobs" croppedToCircle:YES],
-            kSubtitleWoz: [WHDemoAvatarImageFactory avatarImageNamed:@"demo-avatar-woz" croppedToCircle:YES],
-            kSubtitleCook: [WHDemoAvatarImageFactory avatarImageNamed:@"demo-avatar-cook" croppedToCircle:YES]};
-
+                     kSubtitleWoz: [WHDemoAvatarImageFactory avatarImageNamed:@"demo-avatar-woz" croppedToCircle:YES],
+                     kSubtitleCook: [WHDemoAvatarImageFactory avatarImageNamed:@"demo-avatar-cook" croppedToCircle:YES]};
+    
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFastForward
                                                                                            target:self
                                                                                            action:@selector(buttonPressed:)];
@@ -91,24 +94,19 @@
 
 #pragma mark - Table view data source
 - (void)registerObjectsToCollectionView:(UICollectionView *)collectionView {
-    [collectionView registerClass:[WHDemoBubbleMessageCell class] forCellWithReuseIdentifier:@"WHBubbleMessageCell"];
+    [collectionView registerNib:[WHSimpleMessageCell cellNib] forCellWithReuseIdentifier:@"WHSimpleMessageCell"];
 }
 
 
 - (NSString *)customCellIdentifierForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return @"WHBubbleMessageCell";
+    return @"WHSimpleMessageCell";
 }
 
 
 #pragma mark - UICollectionViewDelegateFlowLayout (UICollectionViewDelegate)
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
     WHDemoMessage * message = [self messageForRowAtIndexPath:indexPath];
-    UIImage *avatarImage = [self avatarImageViewForRowAtIndexPath:indexPath sender:[message sender]];
-    BOOL displayTimestamp = [self shouldDisplayTimestampForRowAtIndexPath:indexPath];
-    
-    CGFloat height = [WHDemoBubbleMessageCell preferredSizeForCellWithMessage:message
-                                                           displaysAvatar:(avatarImage != nil)
-                                                        displaysTimestamp:displayTimestamp];
+    CGFloat height = [WHSimpleMessageCell preferredHeightForCellWithMessage:message.text];
     
     return CGSizeMake(CGRectGetWidth(self.collectionView.frame), height);
 }
@@ -129,11 +127,11 @@
                        forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.row % 2) {
         return [WHDemoBubbleImageViewFactory bubbleImageViewForType:type
-                                                          color:[UIColor bubbleLightGrayColor]];
+                                                              color:[UIColor bubbleLightGrayColor]];
     }
-
+    
     return [WHDemoBubbleImageViewFactory bubbleImageViewForType:type
-                                                      color:[UIColor bubbleBlueColor]];
+                                                          color:[UIColor bubbleBlueColor]];
 }
 
 
@@ -166,53 +164,56 @@
 //  *** Implement to customize cell further
 //
 - (void)configureCell:(UICollectionViewCell *)aCell atIndexPath:(NSIndexPath *)indexPath {
-    WHDemoBubbleMessageCell *cell = (WHDemoBubbleMessageCell *)aCell;
-    WHBubbleMessageType type = [self messageTypeForRowAtIndexPath:indexPath];
-
-    UIImageView *bubbleImageView = [self bubbleImageViewWithType:type
-                                                               forRowAtIndexPath:indexPath];
-
-    BOOL displayTimestamp = [self shouldDisplayTimestampForRowAtIndexPath:indexPath];
-
-    WHDemoMessage * message = [self messageForRowAtIndexPath:indexPath];
-    UIImage *avatarImage = [self avatarImageViewForRowAtIndexPath:indexPath sender:[message sender]];
-
-
-    [cell configureWithType:type
-            bubbleImageView:bubbleImageView
-                    message:message
-          displaysTimestamp:displayTimestamp
-                     avatar:(avatarImage != nil)];
-
-    [cell setAvatarImage:avatarImage];
-//    [cell setBackgroundColor:collectionView.backgroundColor];
-
-
-    if ([cell messageType] == WHBubbleMessageTypeOutgoing) {
-        cell.bubbleView.textView.textColor = [UIColor whiteColor];
-
-        if ([cell.bubbleView.textView respondsToSelector:@selector(linkTextAttributes)]) {
-            NSMutableDictionary *attrs = [cell.bubbleView.textView.linkTextAttributes mutableCopy];
-            [attrs setValue:[UIColor blueColor] forKey:UITextAttributeTextColor];
-
-            cell.bubbleView.textView.linkTextAttributes = attrs;
-        }
-    }
-
-    if (cell.timestampLabel) {
-        cell.timestampLabel.textColor = [UIColor lightGrayColor];
-        cell.timestampLabel.shadowOffset = CGSizeZero;
-    }
-
-    if (cell.subtitleLabel) {
-        cell.subtitleLabel.textColor = [UIColor lightGrayColor];
-    }
-
-#if TARGET_IPHONE_SIMULATOR
-        cell.bubbleView.textView.dataDetectorTypes = UIDataDetectorTypeNone;
-    #else
-    cell.bubbleView.textView.dataDetectorTypes = UIDataDetectorTypeAll;
-#endif
+    WHSimpleMessageCell *cell = (WHSimpleMessageCell *)aCell;
+    cell.titleLabel.text = [self messageForRowAtIndexPath:indexPath].text;
+    
+//    WHDemoBubbleMessageCell *cell = (WHDemoBubbleMessageCell *)aCell;
+//    WHBubbleMessageType type = [self messageTypeForRowAtIndexPath:indexPath];
+//    
+//    UIImageView *bubbleImageView = [self bubbleImageViewWithType:type
+//                                               forRowAtIndexPath:indexPath];
+//    
+//    BOOL displayTimestamp = [self shouldDisplayTimestampForRowAtIndexPath:indexPath];
+//    
+//    WHDemoMessage * message = [self messageForRowAtIndexPath:indexPath];
+//    UIImage *avatarImage = [self avatarImageViewForRowAtIndexPath:indexPath sender:[message sender]];
+//    
+//    
+//    [cell configureWithType:type
+//            bubbleImageView:bubbleImageView
+//                    message:message
+//          displaysTimestamp:displayTimestamp
+//                     avatar:(avatarImage != nil)];
+//    
+//    [cell setAvatarImage:avatarImage];
+//    //    [cell setBackgroundColor:collectionView.backgroundColor];
+//    
+//    
+//    if ([cell messageType] == WHBubbleMessageTypeOutgoing) {
+//        cell.bubbleView.textView.textColor = [UIColor whiteColor];
+//        
+//        if ([cell.bubbleView.textView respondsToSelector:@selector(linkTextAttributes)]) {
+//            NSMutableDictionary *attrs = [cell.bubbleView.textView.linkTextAttributes mutableCopy];
+//            [attrs setValue:[UIColor blueColor] forKey:UITextAttributeTextColor];
+//            
+//            cell.bubbleView.textView.linkTextAttributes = attrs;
+//        }
+//    }
+//    
+//    if (cell.timestampLabel) {
+//        cell.timestampLabel.textColor = [UIColor lightGrayColor];
+//        cell.timestampLabel.shadowOffset = CGSizeZero;
+//    }
+//    
+//    if (cell.subtitleLabel) {
+//        cell.subtitleLabel.textColor = [UIColor lightGrayColor];
+//    }
+//    
+//#if TARGET_IPHONE_SIMULATOR
+//    cell.bubbleView.textView.dataDetectorTypes = UIDataDetectorTypeNone;
+//#else
+//    cell.bubbleView.textView.dataDetectorTypes = UIDataDetectorTypeAll;
+//#endif
 }
 
 //  *** Implement to use a custom send button
