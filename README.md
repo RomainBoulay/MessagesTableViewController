@@ -1,9 +1,9 @@
-# JSMessagesViewController 
-[![Build Status](https://secure.travis-ci.org/jessesquires/MessagesTableViewController.png)](http://travis-ci.org/jessesquires/MessagesTableViewController) [![Version Status](https://cocoapod-badges.herokuapp.com/v/JSMessagesViewController/badge.png)][docsLink] [![license MIT](http://b.repl.ca/v1/license-MIT-blue.png)][mitLink]
+# WHMessagesViewController 
+[![Build Status](https://secure.travis-ci.org/jessesquires/MessagesTableViewController.png)](http://travis-ci.org/jessesquires/MessagesTableViewController) [![Version Status](https://cocoapod-badges.herokuapp.com/v/WHMessagesViewController/badge.png)][docsLink] [![license MIT](http://b.repl.ca/v1/license-MIT-blue.png)][mitLink]
 
 A messages UI for iPhone and iPad.
 
-`JSMessagesViewController` is a `UIViewController` subclass that is very similar to the iOS Messages app. 
+`WHMessagesViewController` is a `UIViewController` subclass that is very similar to the iOS Messages app. 
 
 ![Messages Screenshot 1][img1] &nbsp;&nbsp;&nbsp; ![Messages Screenshot 2][img2]
 
@@ -32,18 +32,18 @@ A messages UI for iPhone and iPad.
 
 * iOS 6.0+ 
 * ARC
-* [JSQSystemSoundPlayer][playerLink]
+* [WHQSystemSoundPlayer][playerLink]
 
 ## Installation
 
 #### From [CocoaPods](http://www.cocoapods.org)
 
-`pod 'JSMessagesViewController'`
+`pod 'WHMessagesViewController'`
 
 #### From source
 
-* Drag the `JSMessagesViewController/` folder to your project
-* Download [JSQSystemSoundPlayer][playerLink] and follow its install instructions
+* Drag the `WHMessagesViewController/` folder to your project
+* Download [WHQSystemSoundPlayer][playerLink] and follow its install instructions
 * Add the `QuartzCore.framework` to your project
 
 #### Too cool for [ARC](https://developer.apple.com/library/mac/releasenotes/ObjectiveC/RN-TransitioningToARC/Introduction/Introduction.html)?
@@ -54,14 +54,14 @@ A messages UI for iPhone and iPad.
 
 ### Setup your model
 
-Your model objects should conform to the `JSMessageData` protocol. However, you may use the provided `JSMessage` class for your model objects if you wish.
+Your model objects should conform to the `WHMessageData` protocol. However, you may use the provided `WHMessage` class for your model objects if you wish.
 
 ### Setup your view controller
 
-1. Subclass `JSMessagesViewController`
-2. Conform to the protocols `<JSMessagesViewDelegate, JSMessagesViewDataSource>`
-3. Implement the `JSMessagesViewDelegate` protocol
-4. Implement the `JSMessagesViewDataSource` protocol
+1. Subclass `WHMessagesViewController`
+2. Conform to the protocols `<WHMessagesViewDelegate, WHMessagesViewDataSource>`
+3. Implement the `WHMessagesViewDelegate` protocol
+4. Implement the `WHMessagesViewDataSource` protocol
 5. Implement `collectionView: numberOfRowsInSection:` from the [`UICollectionViewDataSource` protocol](https://developer.apple.com/library/ios/documentation/uikit/reference/UICollectionViewDataSource_Protocol/Reference/Reference.html).
 6. Setup your `viewDidLoad` like the following:
 
@@ -72,7 +72,7 @@ Your model objects should conform to the `JSMessageData` protocol. However, you 
     self.dataSource = self;
     [super viewDidLoad];
     
-    [[JSBubbleView appearance] setFont:/* your font for the message bubbles */];
+    [[WHBubbleView appearance] setFont:/* your font for the message bubbles */];
 
     self.title = @"Your view controller title";
     
@@ -100,7 +100,7 @@ Your model objects should conform to the `JSMessageData` protocol. However, you 
 ## Questions?
 
 1. Be a badass [programming-motherfucker](http://programming-motherfucker.com) and [read](http://thecodinglove.com/post/64679177345/when-i-use-a-lib-without-reading-documentation) the fucking documentation. Yes, there's fucking documentation! And it is fucking kept up-to-date. How fucking sweet is that? [Pretty fucking sweet](http://thecodinglove.com/post/45748349769/when-the-library-has-a-very-good-documentation).
-2. See the included demo: **`JSMessagesDemo.xcworkspace`**. Don't forget to run `pod install` before opening!
+2. See the included demo: **`WHMessagesDemo.xcworkspace`**. Don't forget to run `pod install` before opening!
 3. Still need help? That's ok! Just [open a new issue](https://github.com/jessesquires/MessagesTableViewController/issues/new) with your question, and *add the question label*. 
 4. **Please do not email me your question if you need help**. *But I really want to email you. Why can't I?*
     * Opening an issue is better for you and the community, because it provides better transparency.
@@ -117,20 +117,20 @@ Documentation is [available here][docsLink] via [CocoaDocs](http://cocoadocs.org
 
 Support the developement of this **free**, open-source control! via [Square Cash](https://square.com/cash).
 
-<h4><a href="mailto:jesse.squires.developer@gmail.com?cc=cash@square.com&subject=$1&body=Thanks for developing JSMessagesViewController!">Send $1</a> <em>Just saying thanks!</em></h4>
-<h4><a href="mailto:jesse.squires.developer@gmail.com?cc=cash@square.com&subject=$5&body=Thanks for developing JSMessagesViewController!">Send $5</a> <em>This control is great!</em></h4>
-<h4><a href="mailto:jesse.squires.developer@gmail.com?cc=cash@square.com&subject=$10&body=Thanks for developing JSMessagesViewController!">Send $10</a> <em>This totally saved me time!</em></h4>
-<h4><a href="mailto:jesse.squires.developer@gmail.com?cc=cash@square.com&subject=$25&body=Thanks for developing JSMessagesViewController!">Send $25</a> <em>I want new features!</em></h4>
-<h4><a href="mailto:jesse.squires.developer@gmail.com?cc=cash@square.com&subject=$50&body=Thanks for developing JSMessagesViewController!">Send $50</a> <em>I love this project!</em></h4>
+<h4><a href="mailto:jesse.squires.developer@gmail.com?cc=cash@square.com&subject=$1&body=Thanks for developing WHMessagesViewController!">Send $1</a> <em>Just saying thanks!</em></h4>
+<h4><a href="mailto:jesse.squires.developer@gmail.com?cc=cash@square.com&subject=$5&body=Thanks for developing WHMessagesViewController!">Send $5</a> <em>This control is great!</em></h4>
+<h4><a href="mailto:jesse.squires.developer@gmail.com?cc=cash@square.com&subject=$10&body=Thanks for developing WHMessagesViewController!">Send $10</a> <em>This totally saved me time!</em></h4>
+<h4><a href="mailto:jesse.squires.developer@gmail.com?cc=cash@square.com&subject=$25&body=Thanks for developing WHMessagesViewController!">Send $25</a> <em>I want new features!</em></h4>
+<h4><a href="mailto:jesse.squires.developer@gmail.com?cc=cash@square.com&subject=$50&body=Thanks for developing WHMessagesViewController!">Send $50</a> <em>I love this project!</em></h4>
 
 ## Customization
 
 * You can customize almost any property of a cell by implementing the optional delegate method `configureCell: atIndexPath:`
 
 ````objective-c
-- (void)configureCell:(JSBubbleMessageCell *)cell atIndexPath:(NSIndexPath *)indexPath
+- (void)configureCell:(WHBubbleMessageCell *)cell atIndexPath:(NSIndexPath *)indexPath
 {
-    if ([cell messageType] == JSBubbleMessageTypeOutgoing) {
+    if ([cell messageType] == WHBubbleMessageTypeOutgoing) {
 
         // Customize any UITextView properties
         cell.bubbleView.textView.textColor = [UIColor whiteColor];
@@ -161,12 +161,12 @@ Support the developement of this **free**, open-source control! via [Square Cash
 * Set the font for your messages bubbles via `UIAppearance`
 
 ````objective-c
-[[JSBubbleView appearance] setFont:[UIFont systemFontOfSize:16.0f]];
+[[WHBubbleView appearance] setFont:[UIFont systemFontOfSize:16.0f]];
 ````
 
-* Customize your message bubbles with `JSBubbleImageViewFactory`
+* Customize your message bubbles with `WHBubbleImageViewFactory`
 
-* Customize your avatars with `JSAvatarImageFactory`
+* Customize your avatars with `WHAvatarImageFactory`
 
 ## How To Contribute
 
@@ -230,11 +230,11 @@ Copyright &copy; 2013 Jesse Squires
 
 >THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-[docsLink]:http://cocoadocs.org/docsets/JSMessagesViewController/4.0.0
+[docsLink]:http://cocoadocs.org/docsets/WHMessagesViewController/4.0.0
 
 [mitLink]:http://opensource.org/licenses/MIT
 
-[playerLink]:https://github.com/jessesquires/JSQSystemSoundPlayer
+[playerLink]:https://github.com/jessesquires/WHQSystemSoundPlayer
 
 [ss]:https://github.com/soffes/ssmessagesviewcontroller
 

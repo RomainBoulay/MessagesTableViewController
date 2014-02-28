@@ -1,4 +1,4 @@
 platform :ios, '6.0'
-pod 'JSQSystemSoundPlayer'
+pod 'WHQSystemSoundPlayer'
 
-link_with 'JSMessagesDemo', 'JSMessagesDemoTests'
+link_with 'WHMessagesDemo', 'WHMessagesDemoTests'
