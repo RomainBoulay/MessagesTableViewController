@@ -22,7 +22,7 @@ extern CGFloat const kJSAvatarImageSize;
 /**
  *  `WHAvatarImageFactory` is a factory that provides a means for styling avatar images to be displayed in a `WHBubbleMessageCell` of a `WHMessagesViewController`.
  */
-@interface WHAvatarImageFactory : NSObject
+@interface WHDemoAvatarImageFactory : NSObject
 
 /**
  *  Returns the image object associated with the specified filename. The image is cropped to a circle if the value of croppedToCircle is `YES`, otherwise the image is cropped to a square. The image has a flat, iOS 7 appearance.

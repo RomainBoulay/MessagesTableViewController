@@ -15,7 +15,7 @@
 //  http://opensource.org/licenses/MIT
 //
 
-#import <UIKit/UIKit.h>
+@import UIKit;
 
 /**
  *  The delegate of a `WHDismissiveTextView` object must adopt the `WHDismissiveTextViewDelegate` protocol.

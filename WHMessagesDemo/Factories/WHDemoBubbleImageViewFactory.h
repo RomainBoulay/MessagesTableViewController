@@ -57,7 +57,7 @@ typedef NS_ENUM(NSUInteger, WHBubbleImageViewStyle) {
 /**
  *  `WHBubbleImageViewFactory` is a factory that provides a means for styling bubble image views to be displayed in a `WHBubbleMessageCell` of a `WHMessagesViewController`.
  */
-@interface WHBubbleImageViewFactory : NSObject
+@interface WHDemoBubbleImageViewFactory : NSObject
 
 /**
  *  Creates and returns an image view object with the specified type and color. The `image` property of the image view is configured with a flat, iOS7-style bubble image, masked with the given color. The `highlightedImage` property is configured similarly, but with a slightly darkened version of the given color.

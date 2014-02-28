@@ -12,9 +12,9 @@
 //  http://opensource.org/licenses/MIT
 //
 
-#import "WHMessage.h"
+#import "WHDemoMessage.h"
 
-@implementation WHMessage
+@implementation WHDemoMessage
 
 #pragma mark - Initialization
 

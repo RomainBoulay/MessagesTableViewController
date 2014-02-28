@@ -12,7 +12,7 @@
 //  http://opensource.org/licenses/MIT
 //
 
-#import <UIKit/UIKit.h>
+@import UIKit;
 #import "WHMessageTextView.h"
 
 /**
@@ -52,8 +52,8 @@ typedef NS_ENUM(NSUInteger, WHMessageInputViewStyle) {
  */
 @property (weak, nonatomic) UIButton *sendButton;
 
-#pragma mark - Initialization
 
+#pragma mark - Initialization
 /**
  *  Initializes and returns an input view having the given frame, style, delegate, and panGestureRecognizer.
  *
@@ -70,8 +70,8 @@ typedef NS_ENUM(NSUInteger, WHMessageInputViewStyle) {
                      delegate:(id<UITextViewDelegate, WHDismissiveTextViewDelegate>)delegate
          panGestureRecognizer:(UIPanGestureRecognizer *)panGestureRecognizer;
 
-#pragma mark - Message input view
 
+#pragma mark - Message input view
 /**
  *  Adjusts the input view's frame height by the given value.
  *
@@ -93,5 +93,4 @@ typedef NS_ENUM(NSUInteger, WHMessageInputViewStyle) {
  *  @return The maximum height of the input view as determined by `maxLines` and `textViewLineHeight`. This value is used for controlling the animation of the growing and shrinking of the input view as the text changes in the textView.
  */
 + (CGFloat)maxHeight;
-
 @end

@@ -12,9 +12,9 @@
 //  http://opensource.org/licenses/MIT
 //
 
-#import "WHBubbleMessageCell.h"
+#import "WHDemoBubbleMessageCell.h"
 
-#import "WHAvatarImageFactory.h"
+#import "WHDemoAvatarImageFactory.h"
 #import "UIColor+WHMessagesView.h"
 
 
@@ -23,9 +23,9 @@ static const CGFloat kJSTimeStampLabelHeight = 15.0f;
 static const CGFloat kJSSubtitleLabelHeight = 15.0f;
 
 
-@interface WHBubbleMessageCell ()
+@interface WHDemoBubbleMessageCell ()
 
-@property (weak, nonatomic, readwrite) WHBubbleView *bubbleView;
+@property (weak, nonatomic, readwrite) WHDemoBubbleView *bubbleView;
 @property (weak, nonatomic, readwrite) UILabel *timestampLabel;
 @property (weak, nonatomic, readwrite) UIImageView *avatarImageView;
 @property (weak, nonatomic, readwrite) UILabel *subtitleLabel;
@@ -34,7 +34,7 @@ static const CGFloat kJSSubtitleLabelHeight = 15.0f;
 @end
 
 
-@implementation WHBubbleMessageCell
+@implementation WHDemoBubbleMessageCell
 
 
 #pragma mark - Init
@@ -165,7 +165,7 @@ static const CGFloat kJSSubtitleLabelHeight = 15.0f;
 
 - (void)configureWithType:(WHBubbleMessageType)type
           bubbleImageView:(UIImageView *)bubbleImageView
-                  message:(id <WHMessageData>)message
+                  message:(WHDemoMessage *)message
         displaysTimestamp:(BOOL)displaysTimestamp
                    avatar:(BOOL)hasAvatar {
     CGFloat bubbleY = 0.0f;
@@ -215,7 +215,7 @@ static const CGFloat kJSSubtitleLabelHeight = 15.0f;
     [self configureBubbleViewWithFrame:frame
                             bubbleType:type
                        bubbleImageView:bubbleImageView];
-
+    
     [self setMessage:message];
 }
 
@@ -232,11 +232,11 @@ static const CGFloat kJSSubtitleLabelHeight = 15.0f;
 }
 
 
-- (WHBubbleView *)bubbleViewWithFrame:(CGRect)frame
+- (WHDemoBubbleView *)bubbleViewWithFrame:(CGRect)frame
                            bubbleType:(WHBubbleMessageType)bubbleType
                       bubbleImageView:(UIImageView *)bubbleImageView {
     
-    WHBubbleView *bubbleView = [[WHBubbleView alloc] initWithFrame:frame
+    WHDemoBubbleView *bubbleView = [[WHDemoBubbleView alloc] initWithFrame:frame
                                                         bubbleType:bubbleType
                                                    bubbleImageView:bubbleImageView];
     
@@ -253,52 +253,52 @@ static const CGFloat kJSSubtitleLabelHeight = 15.0f;
 
 //- (void)configureWithType:(WHBubbleMessageType)type
 //          bubbleImageView:(UIImageView *)bubbleImageView
-//                  message:(id <WHMessageData>)message
+//                  message:(WHDemoMessage *)message
 //        displaysTimestamp:(BOOL)displaysTimestamp
 //                   avatar:(BOOL)hasAvatar {
 //    CGFloat bubbleY = 0.0f;
 //    CGFloat bubbleX = 0.0f;
-//    
+//
 //    CGFloat offsetX = 0.0f;
-//    
+//
 //    if (displaysTimestamp) {
 //        [self configureTimestampLabel];
 //        bubbleY = 14.0f;
 //    }
-//    
+//
 //    if ([message sender]) {
 //        // ok
 //        [self configureSubtitleLabelForMessageType:type];
 //    }
-//    
+//
 //    if (hasAvatar) {
 //        offsetX = 4.0f;
 //        bubbleX = kJSAvatarImageSize;
 //        if (type == WHBubbleMessageTypeOutgoing) {
 //            offsetX = kJSAvatarImageSize - 4.0f;
 //        }
-//        
+//
 //        [self configureAvatarImageView:[[UIImageView alloc] init] forMessageType:type];
 //    }
-//    
+//
 //    CGRect frame = CGRectMake(bubbleX - offsetX,
 //                              bubbleY,
 //                              self.contentView.frame.size.width - bubbleX,
 //                              self.contentView.frame.size.height - _timestampLabel.frame.size.height - _subtitleLabel.frame.size.height);
-//    
+//
 //    WHBubbleView *bubbleView = [[WHBubbleView alloc] initWithFrame:frame
 //                                                        bubbleType:type
 //                                                   bubbleImageView:bubbleImageView];
-//    
+//
 //    bubbleView.autoresizingMask = (UIViewAutoresizingFlexibleWidth
 //                                   | UIViewAutoresizingFlexibleHeight
 //                                   | UIViewAutoresizingFlexibleBottomMargin);
-//    
+//
 //    [self.contentView addSubview:bubbleView];
 //    [self.contentView sendSubviewToBack:bubbleView];
 //    _bubbleView = bubbleView;
-//    
-//    
+//
+//
 //    [self setMessage:message];
 //}
 
@@ -338,7 +338,7 @@ static const CGFloat kJSSubtitleLabelHeight = 15.0f;
 }
 
 
-- (void)setMessage:(id <WHMessageData>)message {
+- (void)setMessage:(WHDemoMessage *)message {
     [self setText:[message text]];
     [self setTimestamp:[message date]];
     [self setSubtitle:[message sender]];
@@ -357,16 +357,16 @@ static const CGFloat kJSSubtitleLabelHeight = 15.0f;
 
 
 #pragma mark - Class methods
-+ (CGFloat)neededHeightForBubbleMessageCellWithMessage:(id <WHMessageData>)message
-                                        displaysAvatar:(BOOL)displaysAvatar
-                                     displaysTimestamp:(BOOL)displaysTimestamp {
++ (CGFloat)preferredSizeForCellWithMessage:(WHDemoMessage *)message
+                            displaysAvatar:(BOOL)displaysAvatar
+                         displaysTimestamp:(BOOL)displaysTimestamp {
     CGFloat timestampHeight = displaysTimestamp ? kJSTimeStampLabelHeight : 0.0f;
     CGFloat avatarHeight = displaysAvatar ? kJSAvatarImageSize : 0.0f;
     CGFloat subtitleHeight = [message sender] ? kJSSubtitleLabelHeight : 0.0f;
     
     CGFloat subviewHeights = timestampHeight + subtitleHeight + kJSLabelPadding;
     
-    CGFloat bubbleHeight = [WHBubbleView neededHeightForText:[message text]];
+    CGFloat bubbleHeight = [WHDemoBubbleView neededHeightForText:[message text]];
     
     CGFloat result =  subviewHeights + MAX(avatarHeight, bubbleHeight);
     return result;

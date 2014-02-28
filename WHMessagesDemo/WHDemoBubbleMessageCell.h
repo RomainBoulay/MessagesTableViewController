@@ -12,21 +12,22 @@
 //  http://opensource.org/licenses/MIT
 //
 
-#import <UIKit/UIKit.h>
-#import "WHBubbleView.h"
-#import "WHMessageData.h"
+@import UIKit;
+
+#import "WHDemoBubbleView.h"
+#import "WHDemoMessage.h"
 
 /**
  *  The `WHBubbleMessageCell` class defines the attributes and behavior of the cells that appear in `WHMessagesViewController`. This class includes properties and methods for setting and managing cell content.
  */
-@interface WHBubbleMessageCell : UICollectionViewCell
+@interface WHDemoBubbleMessageCell : UICollectionViewCell
 
 /**
  *  Returns the bubble view used in the cell. WHBubbleMessageCell adds the appropriate bubble view when you create the cell with a given cell type and bubbleImageView. This property is never `nil`. 
  *  @see WHBubbleView. 
  *  @see WHBubbleMessageType.
  */
-@property (weak, nonatomic, readonly) WHBubbleView *bubbleView;
+@property (weak, nonatomic, readonly) WHDemoBubbleView *bubbleView;
 
 /**
  *  Returns the label used to display the timestamp for the cell. This property may be `nil` if no timestamp is provided. 
@@ -46,8 +47,8 @@
  */
 @property (weak, nonatomic, readonly) UILabel *subtitleLabel;
 
-#pragma mark - Initialization
 
+#pragma mark - Initialization
 /**
  *  Configure a message cell and returns it to the caller.
  *
@@ -62,7 +63,7 @@
  */
 - (void)configureWithType:(WHBubbleMessageType)type
           bubbleImageView:(UIImageView *)bubbleImageView
-                  message:(id <WHMessageData>)message
+                  message:(WHDemoMessage *)message
         displaysTimestamp:(BOOL)displaysTimestamp
                    avatar:(BOOL)hasAvatar;
 
@@ -74,7 +75,7 @@
  *
  *  @param message An object that conforms to the `WHMessageData` protocol containing the message data for the cell.
  */
-- (void)setMessage:(id<WHMessageData>)message;
+- (void)setMessage:(WHDemoMessage *)message;
 
 /**
  *  Sets the imageView for the avatarImageView of the cell. The frame is set for you by `WHBubbleMessageCell`.
@@ -104,7 +105,7 @@
  *
  *  @return The height required for the frame of the cell in order for the cell to display the entire contents of its subviews.
  */
-+ (CGFloat)neededHeightForBubbleMessageCellWithMessage:(id<WHMessageData>)message
++ (CGFloat)preferredSizeForCellWithMessage:(WHDemoMessage *)message
                                         displaysAvatar:(BOOL)displaysAvatar
                                      displaysTimestamp:(BOOL)displaysTimestamp;
 

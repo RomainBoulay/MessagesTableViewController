@@ -13,7 +13,6 @@
 //
 
 #import "WHMessageTextView.h"
-#import "WHBubbleView.h"
 #import "NSString+WHMessagesView.h"
 
 @interface WHMessageTextView ()

@@ -12,7 +12,7 @@
 //  http://opensource.org/licenses/MIT
 //
 
-#import <UIKit/UIKit.h>
+@import UIKit;
 
 @interface UIColor (WHMessagesView)
 

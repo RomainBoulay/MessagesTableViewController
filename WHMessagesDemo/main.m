@@ -6,7 +6,7 @@
 //  Copyright (c) 2013 Hexed Bits. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+@import UIKit;
 
 #import "WHAppDelegate.h"
 

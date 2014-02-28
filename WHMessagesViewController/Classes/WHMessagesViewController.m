@@ -13,6 +13,7 @@
 //
 
 #import "WHMessagesViewController.h"
+
 #import "NSString+WHMessagesView.h"
 
 
@@ -20,6 +21,7 @@
 
 @property(assign, nonatomic) CGFloat previousTextViewContentHeight;
 @property(assign, nonatomic) BOOL isUserScrolling;
+@property (weak, nonatomic, readwrite) WHMessageInputView *messageInputView;
 
 @end
 
@@ -33,7 +35,7 @@
 }
 
 
-- (void)setup {
+- (void)setupAfterViewDidLoad {
     if ([self.view isKindOfClass:[UIScrollView class]]) {
         // FIXME: hack-ish fix for ipad modal form presentations
         ((UIScrollView *) self.view).scrollEnabled = NO;
@@ -41,18 +43,15 @@
     
     _isUserScrolling = NO;
     
-    WHMessageInputViewStyle inputViewStyle = [self.messageDelegate inputViewStyle];
+    // Default inputViewStyle is the iOS7 one.
+    WHMessageInputViewStyle inputViewStyle = WHMessageInputViewStyleFlat;
+    if ([self.messageDelegate respondsToSelector:@selector(inputViewStyle)]) {
+        inputViewStyle = [self.messageDelegate inputViewStyle];
+    }
+    
     CGFloat inputViewHeight = (inputViewStyle == WHMessageInputViewStyleFlat) ? 45.0f : 40.0f;
     
-    WHMessageTableView *collectionView = [[WHMessageTableView alloc] initWithFrame:self.view.frame collectionViewLayout:self.collectionViewLayout];
-    collectionView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-    collectionView.dataSource = self;
-    collectionView.delegate = self;
-    self.collectionView = collectionView;
-    
     [self setInsetsWithBottomValue:inputViewHeight];
-    
-    [self setBackgroundColor:[UIColor backgroundColorClassic]];
     
     CGRect inputFrame = CGRectMake(0.0f,
                                    self.view.frame.size.height - inputViewHeight,
@@ -87,18 +86,17 @@
                    forControlEvents:UIControlEventTouchUpInside];
     
     [self.view addSubview:inputView];
-    _messageInputView = inputView;
+    self.messageInputView = inputView;
     
     // Cell register
     [self.messageDataSource registerObjectsToCollectionView:self.collectionView];
 }
 
-#pragma mark - View lifecycle
 
+#pragma mark - View lifecycle
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self setup];
-    [[WHBubbleView appearance] setFont:[UIFont systemFontOfSize:16.0f]];
+    [self setupAfterViewDidLoad];
 }
 
 
@@ -135,16 +133,7 @@
 }
 
 
-- (void)dealloc {
-    [self.messageInputView.textView removeObserver:self forKeyPath:@"contentSize"];
-    _messageDelegate = nil;
-    _messageDataSource = nil;
-    self.collectionView = nil;
-    _messageInputView = nil;
-}
-
 #pragma mark - View rotation
-
 - (BOOL)shouldAutorotate {
     return YES;
 }
@@ -161,12 +150,14 @@
     [self.collectionView setNeedsLayout];
 }
 
-#pragma mark - Actions
 
+#pragma mark - Actions
 - (void)sendPressed:(UIButton *)sender {
     [self.messageDelegate didSendText:[self.messageInputView.textView.text stringByTrimingWhitespace]
-                           fromSender:self.sender
                                onDate:[NSDate date]];
+    
+    [self finishSend];
+    [self scrollToBottomAnimated:YES];
 }
 
 
@@ -177,67 +168,27 @@
 
 #pragma mark - UICollectionViewDataSource
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
-    return 1;
+    return [self.messageDelegate numberOfSections];
 }
 
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return 0;
+    return [self.messageDelegate numberOfItemsInSection:section];
 }
 
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+    // Dequeue or init cell
     NSString *cellIdentifier = [self.messageDelegate customCellIdentifierForRowAtIndexPath:indexPath];
+    UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:cellIdentifier
+                                                                           forIndexPath:indexPath];
     
-    WHBubbleMessageCell *cell = (WHBubbleMessageCell *) [collectionView dequeueReusableCellWithReuseIdentifier:cellIdentifier
-                                                                                                  forIndexPath:indexPath];
-    
-    WHBubbleMessageType type = [self.messageDelegate messageTypeForRowAtIndexPath:indexPath];
-    
-    UIImageView *bubbleImageView = [self.messageDelegate bubbleImageViewWithType:type
-                                                               forRowAtIndexPath:indexPath];
-    
-    BOOL displayTimestamp = YES;
-    if ([self.messageDelegate respondsToSelector:@selector(shouldDisplayTimestampForRowAtIndexPath:)]) {
-        displayTimestamp = [self.messageDelegate shouldDisplayTimestampForRowAtIndexPath:indexPath];
-    }
-    
-    id <WHMessageData> message = [self.messageDataSource messageForRowAtIndexPath:indexPath];
-    UIImage *avatarImage = [self.messageDataSource avatarImageViewForRowAtIndexPath:indexPath sender:[message sender]];
-    
-    
-    [cell configureWithType:type
-            bubbleImageView:bubbleImageView
-                    message:message
-          displaysTimestamp:displayTimestamp
-                     avatar:(avatarImage != nil)];
-    
-    [cell setAvatarImage:avatarImage];
-    [cell setBackgroundColor:collectionView.backgroundColor];
-    
+    // Configure cell
     if ([self.messageDelegate respondsToSelector:@selector(configureCell:atIndexPath:)]) {
         [self.messageDelegate configureCell:cell atIndexPath:indexPath];
     }
     
     return cell;
-}
-
-
-#pragma mark - UICollectionViewDelegateFlowLayout
-- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    id <WHMessageData> message = [self.messageDataSource messageForRowAtIndexPath:indexPath];
-    UIImage *avatarImage = [self.messageDataSource avatarImageViewForRowAtIndexPath:indexPath sender:[message sender]];
-    
-    BOOL displayTimestamp = YES;
-    if ([self.messageDelegate respondsToSelector:@selector(shouldDisplayTimestampForRowAtIndexPath:)]) {
-        displayTimestamp = [self.messageDelegate shouldDisplayTimestampForRowAtIndexPath:indexPath];
-    }
-    
-    CGFloat heigth = [WHBubbleMessageCell neededHeightForBubbleMessageCellWithMessage:message
-                                                                       displaysAvatar:avatarImage != nil
-                                                                    displaysTimestamp:displayTimestamp];
-    
-    return CGSizeMake(320, heigth);
 }
 
 
@@ -249,19 +200,11 @@
 }
 
 
-- (void)setBackgroundColor:(UIColor *)color {
-    self.view.backgroundColor = color;
-    self.collectionView.backgroundColor = color;
-    //    self.collectionView.separatorColor = color;
-}
-
-
 - (void)scrollToBottomAnimated:(BOOL)animated {
     if (![self shouldAllowScroll])
         return;
     
     NSInteger rows = [self.collectionView numberOfItemsInSection:0];
-    
     if (rows > 0) {
         [self.collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:rows - 1 inSection:0]
                                     atScrollPosition:UICollectionViewScrollPositionBottom
@@ -299,7 +242,7 @@
     self.isUserScrolling = YES;
     
     [self.messageInputView.textView resignFirstResponder];
-
+    
 }
 
 
@@ -430,9 +373,9 @@
 
 
 - (void)keyboardWillShowHide:(NSNotification *)notification {
-    CGRect keyboardRect = [[notification.userInfo objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
-    UIViewAnimationCurve curve = [[notification.userInfo objectForKey:UIKeyboardAnimationCurveUserInfoKey] integerValue];
-    double duration = [[notification.userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey] doubleValue];
+    CGRect keyboardRect = [(notification.userInfo)[UIKeyboardFrameEndUserInfoKey] CGRectValue];
+    UIViewAnimationCurve curve = [(notification.userInfo)[UIKeyboardAnimationCurveUserInfoKey] integerValue];
+    double duration = [(notification.userInfo)[UIKeyboardAnimationDurationUserInfoKey] doubleValue];
     
     [UIView animateWithDuration:duration
                           delay:0.0
@@ -496,5 +439,13 @@
     }
 }
 
+
+#pragma mark - Memory
+- (void)dealloc {
+    [self.messageInputView.textView removeObserver:self forKeyPath:@"contentSize"];
+    _messageDelegate = nil;
+    _messageDataSource = nil;
+    _messageInputView = nil;
+}
 
 @end

@@ -12,14 +12,14 @@
 //  http://opensource.org/licenses/MIT
 //
 
-#import <UIKit/UIKit.h>
-#import "WHBubbleImageViewFactory.h"
+@import UIKit;
+#import "WHDemoBubbleImageViewFactory.h"
 
 /**
  *  An instance of WHBubbleView is a means for displaying text in a speech bubble image to be placed in a WHBubbleMessageCell. 
  *  @see WHBubbleMessageCell.
  */
-@interface WHBubbleView : UIView
+@interface WHDemoBubbleView : UIView
 
 /**
  *  Returns the message type for this bubble view.

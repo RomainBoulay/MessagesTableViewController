@@ -12,13 +12,11 @@
 //  http://opensource.org/licenses/MIT
 //
 
-#import <Foundation/Foundation.h>
-#import "WHMessageData.h"
 
 /**
  *  A `WHMessage` object represents a single user message. This is a concrete class that implements the `WHMessageData` protocol. It contains the message text, its sender, and the date that the message was sent.
  */
-@interface WHMessage : NSObject <WHMessageData, NSCoding, NSCopying>
+@interface WHDemoMessage : NSObject <NSCoding, NSCopying>
 
 /**
  *  The body text of the message. The default value is the empty string `@" "`. This value must not be `nil`.

@@ -14,8 +14,6 @@
 
 #import "WHMessageInputView.h"
 
-#import <QuartzCore/QuartzCore.h>
-#import "WHBubbleView.h"
 #import "NSString+WHMessagesView.h"
 #import "UIColor+WHMessagesView.h"
 

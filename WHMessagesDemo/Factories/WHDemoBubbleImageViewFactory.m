@@ -12,13 +12,13 @@
 //  http://opensource.org/licenses/MIT
 //
 
-#import "WHBubbleImageViewFactory.h"
+#import "WHDemoBubbleImageViewFactory.h"
 #import "UIImage+WHMessagesView.h"
 #import "UIColor+WHMessagesView.h"
 
 static NSDictionary *bubbleImageDictionary;
 
-@interface WHBubbleImageViewFactory()
+@interface WHDemoBubbleImageViewFactory()
 
 + (UIImageView *)classicBubbleImageViewForStyle:(WHBubbleImageViewStyle)style
                                      isOutgoing:(BOOL)isOutgoing;
@@ -32,7 +32,7 @@ static NSDictionary *bubbleImageDictionary;
 
 
 
-@implementation WHBubbleImageViewFactory
+@implementation WHDemoBubbleImageViewFactory
 
 #pragma mark - Initialization
 
@@ -40,13 +40,11 @@ static NSDictionary *bubbleImageDictionary;
 {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        bubbleImageDictionary = [NSDictionary dictionaryWithObjectsAndKeys:
-                                 @"bubble-classic-gray", @(WHBubbleImageViewStyleClassicGray),
-                                 @"bubble-classic-blue", @(WHBubbleImageViewStyleClassicBlue),
-                                 @"bubble-classic-green", @(WHBubbleImageViewStyleClassicGreen),
-                                 @"bubble-classic-square-gray", @(WHBubbleImageViewStyleClassicSquareGray),
-                                 @"bubble-classic-square-blue", @(WHBubbleImageViewStyleClassicSquareBlue),
-                                 nil];
+        bubbleImageDictionary = @{@(WHBubbleImageViewStyleClassicGray): @"bubble-classic-gray",
+                                 @(WHBubbleImageViewStyleClassicBlue): @"bubble-classic-blue",
+                                 @(WHBubbleImageViewStyleClassicGreen): @"bubble-classic-green",
+                                 @(WHBubbleImageViewStyleClassicSquareGray): @"bubble-classic-square-gray",
+                                 @(WHBubbleImageViewStyleClassicSquareBlue): @"bubble-classic-square-blue"};
     });
 }
 
@@ -76,7 +74,7 @@ static NSDictionary *bubbleImageDictionary;
 + (UIImageView *)classicBubbleImageViewForType:(WHBubbleMessageType)type
                                          style:(WHBubbleImageViewStyle)style
 {
-    return [WHBubbleImageViewFactory classicBubbleImageViewForStyle:style
+    return [WHDemoBubbleImageViewFactory classicBubbleImageViewForStyle:style
                                                   isOutgoing:type == WHBubbleMessageTypeOutgoing];
 }
 
@@ -85,15 +83,15 @@ static NSDictionary *bubbleImageDictionary;
 + (UIImageView *)classicBubbleImageViewForStyle:(WHBubbleImageViewStyle)style
                                      isOutgoing:(BOOL)isOutgoing
 {
-    UIImage *image = [UIImage imageNamed:[bubbleImageDictionary objectForKey:@(style)]];
-    UIImage *highlightedImage = [WHBubbleImageViewFactory classicHighlightedBubbleImageForStyle:style];
+    UIImage *image = [UIImage imageNamed:bubbleImageDictionary[@(style)]];
+    UIImage *highlightedImage = [WHDemoBubbleImageViewFactory classicHighlightedBubbleImageForStyle:style];
     
     if (!isOutgoing) {
         image = [image imageFlippedHorizontal];
         highlightedImage = [highlightedImage imageFlippedHorizontal];
     }
     
-    UIEdgeInsets capInsets = [WHBubbleImageViewFactory classicBubbleImageCapInsetsForStyle:style
+    UIEdgeInsets capInsets = [WHDemoBubbleImageViewFactory classicBubbleImageCapInsetsForStyle:style
                                                                                 isOutgoing:isOutgoing];
     
     return [[UIImageView alloc] initWithImage:[image stretchableImageWithCapInsets:capInsets]

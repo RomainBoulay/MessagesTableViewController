@@ -12,15 +12,10 @@
 //  http://opensource.org/licenses/MIT
 //
 
-#import <UIKit/UIKit.h>
-#import "WHMessageTableView.h"
-#import "WHMessageData.h"
-#import "WHBubbleMessageCell.h"
+@import UIKit;
+
 #import "WHMessageInputView.h"
-#import "WHAvatarImageFactory.h"
-#import "WHBubbleImageViewFactory.h"
-#import "WHMessageSoundEffect.h"
-#import "UIColor+WHMessagesView.h"
+
 
 /**
  *  The delegate of a `WHMessagesViewController` must adopt the `WHMessagesViewDelegate` protocol.
@@ -37,40 +32,7 @@
  *  @param sender The user who sent the message.
  *  @param date   The date and time at which the message was sent.
  */
-- (void)didSendText:(NSString *)text fromSender:(NSString *)sender onDate:(NSDate *)date;
-
-
-/**
- *  Asks the delegate for the message type for the row at the specified index path.
- *
- *  @param indexPath The index path of the row to be displayed.
- *
- *  @return A constant describing the message type. 
- *  @see WHBubbleMessageType.
- */
-- (WHBubbleMessageType)messageTypeForRowAtIndexPath:(NSIndexPath *)indexPath;
-
-
-/**
- *  Asks the delegate for the bubble image view for the row at the specified index path with the specified type.
- *
- *  @param type      The type of message for the row located at indexPath.
- *  @param indexPath The index path of the row to be displayed.
- *
- *  @return A `UIImageView` with both `image` and `highlightedImage` properties set. 
- *  @see WHBubbleImageViewFactory.
- */
-- (UIImageView *)bubbleImageViewWithType:(WHBubbleMessageType)type
-                       forRowAtIndexPath:(NSIndexPath *)indexPath;
-
-
-/**
- *  Asks the delegate for the input view style.
- *
- *  @return A constant describing the input view style.
- *  @see WHMessageInputViewStyle.
- */
-- (WHMessageInputViewStyle)inputViewStyle;
+- (void)didSendText:(NSString *)text onDate:(NSDate *)date;
 
 
 /**
@@ -83,16 +45,33 @@
 - (NSString *)customCellIdentifierForRowAtIndexPath:(NSIndexPath *)indexPath;
 
 
+/**
+ *  Asks the data source for the number of sections in the collection view.
+ *
+ *  @return The number of sections in collectionView.
+ */
+- (NSInteger)numberOfSections;
+
+
+/**
+ *  Asks the data source for the number of items in the specified section. (required)
+ *
+ *  @param section  An index number identifying a section in collectionView. This index value is 0-based.
+ *
+ *  @return The number of rows in section.
+ */
+- (NSInteger)numberOfItemsInSection:(NSInteger)section;
+
+
 @optional
 
 /**
- *  Asks the delegate if a timestamp should be displayed *above* the row at the specified index path.
+ *  Asks the delegate for the input view style.
  *
- *  @param indexPath The index path of the row to be displayed.
- *
- *  @return A boolean value specifying whether or not a timestamp should be displayed for the row at indexPath. The default value is `YES`.
+ *  @return A constant describing the input view style.
+ *  @see WHMessageInputViewStyle.
  */
-- (BOOL)shouldDisplayTimestampForRowAtIndexPath:(NSIndexPath *)indexPath;
+- (WHMessageInputViewStyle)inputViewStyle;
 
 
 /**
@@ -101,7 +80,7 @@
  *  @param cell      The message cell to configure.
  *  @param indexPath The index path for cell.
  */
-- (void)configureCell:(WHBubbleMessageCell *)cell atIndexPath:(NSIndexPath *)indexPath;
+- (void)configureCell:(UICollectionViewCell *)cell atIndexPath:(NSIndexPath *)indexPath;
 
 
 /**
@@ -144,28 +123,8 @@
 - (void)registerObjectsToCollectionView:(UICollectionView *)collectionView;
 
 
-/**
- *  Asks the data soruce for the message object to display for the row at the specified index path. The message text is displayed in the bubble at index path. The message date is displayed *above* the row at the specified index path. The message sender is displayed *below* the row at the specified index path.
- *
- *  @param indexPath An index path locating a row in the table view.
- *
- *  @return An object that conforms to the `WHMessageData` protocol containing the message data. This value must not be `nil`.
- */
-- (id<WHMessageData>)messageForRowAtIndexPath:(NSIndexPath *)indexPath;
-
-
-/**
- *  Asks the data source for the imageView to display for the row at the specified index path with the given sender. The imageView must have its `image` property set.
- *
- *  @param indexPath An index path locating a row in the table view.
- *  @param sender    The name of the user who sent the message at indexPath.
- *
- *  @return An image view specifying the avatar for the message at indexPath. This value may be `nil`.
- */
-- (UIImage *)avatarImageViewForRowAtIndexPath:(NSIndexPath *)indexPath sender:(NSString *)sender;
-
-
 @end
+
 
 
 /**
@@ -186,38 +145,18 @@
 @property (weak, nonatomic) id<WHMessagesViewDataSource> messageDataSource;
 
 
-///**
-// *  Returns the table view that displays the messages in `WHMessagesViewController`.
-// */
-//@property (weak, nonatomic, readonly) WHMessageTableView *collectionView;
-
-
 /**
  *  Returns the message input view with which new messages are composed.
  */
 @property (weak, nonatomic, readonly) WHMessageInputView *messageInputView;
 
 
-/**
- *  The name of the user sending messages. The default value is `nil`.
- */
-@property (copy, nonatomic) NSString *sender;
-
-
 #pragma mark - Messages view controller
 /**
- *  Animates and resets the text view in messageInputView. Call this method at the end of the delegate method `didSendText:`. 
+ *  Animates and resets the text view in messageInputView. This method is called at the end of the delegate method `didSendText:`. 
  *  @see WHMessagesViewDelegate.
  */
 - (void)finishSend;
-
-
-/**
- *  Sets the background color of the table view, the table view cells, and the table view separator.
- *
- *  @param color The color to be used as the new background color.
- */
-- (void)setBackgroundColor:(UIColor *)color;
 
 
 /**

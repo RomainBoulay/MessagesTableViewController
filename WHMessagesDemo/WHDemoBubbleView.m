@@ -12,10 +12,10 @@
 //  http://opensource.org/licenses/MIT
 //
 
-#import "WHBubbleView.h"
+#import "WHDemoBubbleView.h"
 
 #import "WHMessageInputView.h"
-#import "WHAvatarImageFactory.h"
+#import "WHDemoAvatarImageFactory.h"
 #import "NSString+WHMessagesView.h"
 
 #define kMarginTop 8.0f
@@ -25,12 +25,12 @@
 #define kBubblePaddingRight 35.0f
 
 
-@interface WHBubbleView ()
+@interface WHDemoBubbleView ()
 @property (assign, nonatomic, readwrite) WHBubbleMessageType type;
 @end
 
 
-@interface WHBubbleView()
+@interface WHDemoBubbleView()
 
 - (void)setup;
 
@@ -44,7 +44,7 @@
 @end
 
 
-@implementation WHBubbleView
+@implementation WHDemoBubbleView
 
 @synthesize font = _font;
 
@@ -188,7 +188,7 @@
 #pragma mark - Getters
 - (CGRect)bubbleFrame
 {
-    CGSize bubbleSize = [WHBubbleView neededSizeForText:self.textView.text];
+    CGSize bubbleSize = [WHDemoBubbleView neededSizeForText:self.textView.text];
     
     return CGRectIntegral(CGRectMake((self.type == WHBubbleMessageTypeOutgoing ? self.frame.size.width - bubbleSize.width : 0.0f),
                                      kMarginTop,
@@ -232,13 +232,13 @@
     if (NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_6_0) {
         CGRect stringRect = [txt boundingRectWithSize:CGSizeMake(maxWidth, maxHeight)
                                               options:NSStringDrawingUsesLineFragmentOrigin
-                                           attributes:@{ NSFontAttributeName : [[WHBubbleView appearance] font] }
+                                           attributes:@{ NSFontAttributeName : [[WHDemoBubbleView appearance] font] }
                                               context:nil];
         
         stringSize = CGRectIntegral(stringRect).size;
     }
     else {
-        stringSize = [txt sizeWithFont:[[WHBubbleView appearance] font]
+        stringSize = [txt sizeWithFont:[[WHDemoBubbleView appearance] font]
                      constrainedToSize:CGSizeMake(maxWidth, maxHeight)];
     }
     
@@ -247,7 +247,7 @@
 
 + (CGSize)neededSizeForText:(NSString *)text
 {
-    CGSize textSize = [WHBubbleView textSizeForText:text];
+    CGSize textSize = [WHDemoBubbleView textSizeForText:text];
     
 	return CGSizeMake(textSize.width + kBubblePaddingRight,
                       textSize.height + kPaddingTop + kPaddingBottom);
@@ -255,7 +255,7 @@
 
 + (CGFloat)neededHeightForText:(NSString *)text
 {
-    CGSize size = [WHBubbleView neededSizeForText:text];
+    CGSize size = [WHDemoBubbleView neededSizeForText:text];
     return size.height + kMarginTop + kMarginBottom;
 }
 

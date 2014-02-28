@@ -12,12 +12,12 @@
 //  http://opensource.org/licenses/MIT
 //
 
-#import "WHAvatarImageFactory.h"
+#import "WHDemoAvatarImageFactory.h"
 #import "UIImage+WHMessagesView.h"
 
 CGFloat const kJSAvatarImageSize = 50.0f;
 
-@implementation WHAvatarImageFactory
+@implementation WHDemoAvatarImageFactory
 
 + (UIImage *)avatarImageNamed:(NSString *)filename
               croppedToCircle:(BOOL)croppedToCircle
