@@ -19,7 +19,7 @@
 /**
  *  The `JSBubbleMessageCell` class defines the attributes and behavior of the cells that appear in `JSMessagesViewController`. This class includes properties and methods for setting and managing cell content.
  */
-@interface JSBubbleMessageCell : UITableViewCell
+@interface JSBubbleMessageCell : UICollectionViewCell
 
 /**
  *  Returns the bubble view used in the cell. JSBubbleMessageCell adds the appropriate bubble view when you create the cell with a given cell type and bubbleImageView. This property is never `nil`. 
@@ -49,7 +49,7 @@
 #pragma mark - Initialization
 
 /**
- *  Initializes a message cell and returns it to the caller.
+ *  Configure a message cell and returns it to the caller.
  *
  *  @param type              A constant indicating a message type. @see JSBubbleMessageType for details.
  *  @param bubbleImageView   An image view initialized with bubble images. The `UIImageView` properties `image` and `highlightedImage` must not be `nil`. @see JSBubbleImageViewFactory.
@@ -60,12 +60,12 @@
  *
  *  @return An initialized `JSBubbleMessageCell` object or `nil` if the object could not be created.
  */
-- (instancetype)initWithBubbleType:(JSBubbleMessageType)type
-                   bubbleImageView:(UIImageView *)bubbleImageView
-                           message:(id<JSMessageData>)message
-                 displaysTimestamp:(BOOL)displaysTimestamp
-                         hasAvatar:(BOOL)hasAvatar
-                   reuseIdentifier:(NSString *)reuseIdentifier;
+- (void)configureWithType:(JSBubbleMessageType)type
+          bubbleImageView:(UIImageView *)bubbleImageView
+                  message:(id <JSMessageData>)message
+        displaysTimestamp:(BOOL)displaysTimestamp
+                   avatar:(BOOL)hasAvatar;
+
 
 #pragma mark - Setters
 
@@ -86,10 +86,10 @@
 #pragma mark - Getters
 
 /**
- *  Returns a contant indicating the message type for the cell. 
+ *  Returns a constant indicating the message type for the cell.
  *  @see JSBubbleMessageType.
  *
- *  @return A contant indicating the message type.
+ *  @return A constant indicating the message type.
  */
 - (JSBubbleMessageType)messageType;
 

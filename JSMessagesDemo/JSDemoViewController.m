@@ -25,8 +25,8 @@
 
 - (void)viewDidLoad
 {
-    self.delegate = self;
-    self.dataSource = self;
+    self.messageDelegate = self;
+    self.messageDataSource = self;
     [super viewDidLoad];
     
     [[JSBubbleView appearance] setFont:[UIFont systemFontOfSize:16.0f]];
@@ -54,8 +54,7 @@
     self.avatars = [[NSDictionary alloc] initWithObjectsAndKeys:
                     [JSAvatarImageFactory avatarImageNamed:@"demo-avatar-jobs" croppedToCircle:YES], kSubtitleJobs,
                     [JSAvatarImageFactory avatarImageNamed:@"demo-avatar-woz" croppedToCircle:YES], kSubtitleWoz,
-                    [JSAvatarImageFactory avatarImageNamed:@"demo-avatar-cook" croppedToCircle:YES], kSubtitleCook,
-                    nil];
+                    [JSAvatarImageFactory avatarImageNamed:@"demo-avatar-cook" croppedToCircle:YES], kSubtitleCook, nil];
     
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFastForward
                                                                                            target:self
@@ -78,11 +77,20 @@
 }
 
 #pragma mark - Table view data source
+- (void)registerObjectsToCollectionView:(UICollectionView *)collectionView {
+    [collectionView registerClass:[JSBubbleMessageCell class] forCellWithReuseIdentifier:@"JSBubbleMessageCell"];
+}
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
+
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     return self.messages.count;
 }
+
+
+- (NSString *)customCellIdentifierForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return @"JSBubbleMessageCell";
+}
+
 
 #pragma mark - Messages view delegate: REQUIRED
 
@@ -123,6 +131,10 @@
 - (JSMessageInputViewStyle)inputViewStyle
 {
     return JSMessageInputViewStyleFlat;
+}
+
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    NSLog(@"%@", indexPath);
 }
 
 #pragma mark - Messages view delegate: OPTIONAL

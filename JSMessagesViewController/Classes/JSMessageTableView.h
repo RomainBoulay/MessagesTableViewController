@@ -17,6 +17,6 @@
 /**
  *  An instance of `JSMessageTableView` is a subclass of `UITableView` and is means for displaying a list of messages between a group of users.
  */
-@interface JSMessageTableView : UITableView
+@interface JSMessageTableView : UICollectionView
 
 @end

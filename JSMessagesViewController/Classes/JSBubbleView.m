@@ -43,16 +43,16 @@
 
 @synthesize font = _font;
 
-#pragma mark - Setup
 
+#pragma mark - Setup
 - (void)setup
 {
     self.backgroundColor = [UIColor clearColor];
     self.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 }
 
-#pragma mark - Initialization
 
+#pragma mark - Initialization
 - (instancetype)initWithFrame:(CGRect)frame
                    bubbleType:(JSBubbleMessageType)bubleType
               bubbleImageView:(UIImageView *)bubbleImageView
@@ -108,8 +108,8 @@
     _textView = nil;
 }
 
-#pragma mark - KVO
 
+#pragma mark - KVO
 - (void)addTextViewObservers
 {
     [_textView addObserver:self
@@ -128,12 +128,14 @@
                    context:nil];
 }
 
+
 - (void)removeTextViewObservers
 {
     [_textView removeObserver:self forKeyPath:@"text"];
     [_textView removeObserver:self forKeyPath:@"font"];
     [_textView removeObserver:self forKeyPath:@"textColor"];
 }
+
 
 - (void)observeValueForKeyPath:(NSString *)keyPath
                       ofObject:(id)object
@@ -149,16 +151,16 @@
     }
 }
 
-#pragma mark - Setters
 
+#pragma mark - Setters
 - (void)setFont:(UIFont *)font
 {
     _font = font;
     _textView.font = font;
 }
 
-#pragma mark - UIAppearance Getters
 
+#pragma mark - UIAppearance Getters
 - (UIFont *)font
 {
     if (_font == nil) {
@@ -172,8 +174,8 @@
     return [UIFont systemFontOfSize:16.0f];
 }
 
-#pragma mark - Getters
 
+#pragma mark - Getters
 - (CGRect)bubbleFrame
 {
     CGSize bubbleSize = [JSBubbleView neededSizeForText:self.textView.text];
@@ -184,8 +186,8 @@
                                      bubbleSize.height + kMarginTop));
 }
 
-#pragma mark - Layout
 
+#pragma mark - Layout
 - (void)layoutSubviews
 {
     [super layoutSubviews];
@@ -206,8 +208,8 @@
     self.textView.frame = CGRectIntegral(textFrame);
 }
 
-#pragma mark - Bubble view
 
+#pragma mark - Bubble view
 + (CGSize)textSizeForText:(NSString *)txt
 {
     CGFloat maxWidth = [UIScreen mainScreen].applicationFrame.size.width * 0.70f;

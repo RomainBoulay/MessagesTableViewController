@@ -62,7 +62,7 @@ Your model objects should conform to the `JSMessageData` protocol. However, you 
 2. Conform to the protocols `<JSMessagesViewDelegate, JSMessagesViewDataSource>`
 3. Implement the `JSMessagesViewDelegate` protocol
 4. Implement the `JSMessagesViewDataSource` protocol
-5. Implement `tableView: numberOfRowsInSection:` from the [`UITableViewDataSource` protocol](https://developer.apple.com/library/ios/documentation/uikit/reference/UITableViewDataSource_Protocol/Reference/Reference.html).
+5. Implement `collectionView: numberOfRowsInSection:` from the [`UICollectionViewDataSource` protocol](https://developer.apple.com/library/ios/documentation/uikit/reference/UICollectionViewDataSource_Protocol/Reference/Reference.html).
 6. Setup your `viewDidLoad` like the following:
 
 ````objective-c
