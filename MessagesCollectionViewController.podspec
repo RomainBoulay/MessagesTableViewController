@@ -1,5 +1,5 @@
 Pod::Spec.new do |s|
-	s.name				= 'WHMessagesViewController'
+	s.name				= 'MessagesCollectionViewController'
 	s.version			= '1.0.1'
 	s.summary			= 'A messages UI for iPhone and iPad.'
 	s.homepage			= 'https://github.com/RomainBoulay/MessagesTableViewController'

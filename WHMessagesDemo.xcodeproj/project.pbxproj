@@ -174,7 +174,7 @@
 		88A3FB73182E079E00705327 /* WHMessagesDemoTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "WHMessagesDemoTests-Info.plist"; sourceTree = "<group>"; };
 		88A3FB75182E079E00705327 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		88A3FB77182E079E00705327 /* WHMessagesDemoTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WHMessagesDemoTests.m; sourceTree = "<group>"; };
-		88A3FC13182E0B8C00705327 /* WHMessagesViewController.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = WHMessagesViewController.podspec; sourceTree = "<group>"; };
+		88A3FC13182E0B8C00705327 /* MessagesCollectionViewController.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = MessagesCollectionViewController.podspec; sourceTree = "<group>"; };
 		88A3FC14182E0B8C00705327 /* LICENSE.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
 		88A3FC15182E0B8C00705327 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = text; lineEnding = 0; path = README.md; sourceTree = "<group>"; };
 		88A3FC1C182E0EA000705327 /* NSString+WHMessagesView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+WHMessagesView.h"; sourceTree = "<group>"; };
@@ -358,7 +358,7 @@
 			isa = PBXGroup;
 			children = (
 				88A3FC19182E0EA000705327 /* WHMessagesViewController */,
-				88A3FC13182E0B8C00705327 /* WHMessagesViewController.podspec */,
+				88A3FC13182E0B8C00705327 /* MessagesCollectionViewController.podspec */,
 				88A3FC14182E0B8C00705327 /* LICENSE.txt */,
 				88A3FC15182E0B8C00705327 /* README.md */,
 				88A3FB4F182E079E00705327 /* WHMessagesDemo */,
