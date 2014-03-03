@@ -94,7 +94,7 @@ static UINib *cellNib;
     
     CGSize stringSize;
     
-    if (NO && NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_6_0) {
+    if ([txt respondsToSelector:@selector(boundingRectWithSize:options:attributes:context:)]) {
         CGRect stringRect = [txt boundingRectWithSize:CGSizeMake(maxWidth, maxHeight)
                                               options:NSStringDrawingUsesLineFragmentOrigin
                                            attributes:@{ NSFontAttributeName : [self font] }

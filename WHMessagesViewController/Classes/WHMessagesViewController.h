@@ -110,7 +110,6 @@
 @end
 
 
-
 @protocol WHMessagesViewDataSource <NSObject>
 
 @required
@@ -126,7 +125,6 @@
 @end
 
 
-
 /**
  *  An instance of `WHMessagesViewController` is a subclass of `UIViewController` specialized to display a messaging interface.
  */
@@ -136,19 +134,19 @@
 /**
  *  The object that acts as the delegate of the receiving messages view.
  */
-@property (weak, nonatomic) id<WHMessagesViewDelegate> messageDelegate;
+@property(weak, nonatomic) id <WHMessagesViewDelegate> messageDelegate;
 
 
 /**
  *  The object that acts as the data source of receiving messages view.
  */
-@property (weak, nonatomic) id<WHMessagesViewDataSource> messageDataSource;
+@property(weak, nonatomic) id <WHMessagesViewDataSource> messageDataSource;
 
 
 /**
  *  Returns the message input view with which new messages are composed.
  */
-@property (weak, nonatomic, readonly) WHMessageInputView *messageInputView;
+@property(weak, nonatomic, readonly) WHMessageInputView *messageInputView;
 
 
 #pragma mark - Messages view controller
@@ -183,7 +181,7 @@
  *  @param animated  `YES` if you want to animate the change in position, `NO` if it should be immediate.
  */
 - (void)scrollToRowAtIndexPath:(NSIndexPath *)indexPath
-			  atScrollPosition:(UICollectionViewScrollPosition)position
-					  animated:(BOOL)animated;
+              atScrollPosition:(UICollectionViewScrollPosition)position
+                      animated:(BOOL)animated;
 
 @end

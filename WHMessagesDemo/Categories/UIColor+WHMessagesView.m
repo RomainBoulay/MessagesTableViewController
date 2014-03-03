@@ -59,7 +59,7 @@
 - (UIColor *)darkenColorWithValue:(CGFloat)value
 {
     NSUInteger totalComponents = CGColorGetNumberOfComponents(self.CGColor);
-    BOOL isGreyscale = (totalComponents == 2) ? YES : NO;
+    BOOL isGreyscale = (totalComponents == 2);
     
     CGFloat *oldComponents = (CGFloat *)CGColorGetComponents(self.CGColor);
     CGFloat newComponents[4];

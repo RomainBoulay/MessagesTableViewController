@@ -13,7 +13,9 @@
 //
 
 @import UIKit;
+
 #import "WHMessageTextView.h"
+
 
 /**
  *  The appearance style of the input bar view for composing a new message.
@@ -22,11 +24,15 @@ typedef NS_ENUM(NSUInteger, WHMessageInputViewStyle) {
     /**
      *  An input view style that has the appearance as seen in iOS 6 and before.
      */
-    WHMessageInputViewStyleClassic,
+            WHMessageInputViewStyleClassic,
     /**
      *  An input view style that has the appearance as seen in iOS 7 and later.
      */
-    WHMessageInputViewStyleFlat
+            WHMessageInputViewStyleFlat,
+    /**
+     *  An input view style that has the appearance as seen in iOS 7 and later, without the send button
+     */
+            WHMessageInputViewStyleFlatFullExperience
 };
 
 
@@ -39,18 +45,18 @@ typedef NS_ENUM(NSUInteger, WHMessageInputViewStyle) {
  *  Returns the style appearance for the input view.
  *  @see WHMessageInputViewStyle.
  */
-@property (assign, nonatomic, readonly) WHMessageInputViewStyle style;
+@property(assign, nonatomic, readonly) WHMessageInputViewStyle style;
 
 /**
  *  Returns the textView into which a new message is composed. This property is never `nil`.
  */
-@property (weak, nonatomic, readonly) WHMessageTextView *textView;
+@property(weak, nonatomic, readonly) WHMessageTextView *textView;
 
 /**
  *  The send button for the input view. The default value is an initialized `UIButton` whose appearance is styled according to the value of style during initialization. 
  *  @see WHMessageInputViewStyle.
  */
-@property (weak, nonatomic) UIButton *sendButton;
+@property(weak, nonatomic) UIButton *sendButton;
 
 
 #pragma mark - Initialization
@@ -67,7 +73,7 @@ typedef NS_ENUM(NSUInteger, WHMessageInputViewStyle) {
  */
 - (instancetype)initWithFrame:(CGRect)frame
                         style:(WHMessageInputViewStyle)style
-                     delegate:(id<UITextViewDelegate, WHDismissiveTextViewDelegate>)delegate
+                     delegate:(id <UITextViewDelegate, WHDismissiveTextViewDelegate>)delegate
          panGestureRecognizer:(UIPanGestureRecognizer *)panGestureRecognizer;
 
 

@@ -14,15 +14,15 @@
 
 #import "NSString+WHMessagesView.h"
 
+
 @implementation NSString (WHMessagesView)
 
-- (NSString *)stringByTrimingWhitespace
-{
+- (NSString *)stringByTrimingWhitespace {
     return [self stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 }
 
-- (NSUInteger)numberOfLines
-{
+
+- (NSUInteger)numberOfLines {
     return [[self componentsSeparatedByString:@"\n"] count] + 1;
 }
 

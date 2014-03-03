@@ -17,6 +17,7 @@
 
 @import UIKit;
 
+
 /**
  *  The delegate of a `WHDismissiveTextView` object must adopt the `WHDismissiveTextViewDelegate` protocol.
  */
@@ -58,11 +59,11 @@
 /**
  *  The object that acts as the delegate of the receiving text view.
  */
-@property (weak, nonatomic) id<WHDismissiveTextViewDelegate> keyboardDelegate;
+@property(weak, nonatomic) id <WHDismissiveTextViewDelegate> keyboardDelegate;
 
 /**
  *  The pan gesture recognizer for the text view.
  */
-@property (strong, nonatomic) UIPanGestureRecognizer *dismissivePanGestureRecognizer;
+@property(strong, nonatomic) UIPanGestureRecognizer *dismissivePanGestureRecognizer;
 
 @end
