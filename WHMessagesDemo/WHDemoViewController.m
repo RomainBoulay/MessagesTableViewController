@@ -35,6 +35,13 @@
     self.messageDataSource = self;
     [super viewDidLoad];
     
+    // Send button in navigation bar
+    UIButton *sendButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 50, 26)];
+    [sendButton setTitle:@"Send" forState:UIControlStateNormal];
+    [sendButton setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+    [sendButton setTitleColor:[UIColor redColor] forState:UIControlStateDisabled];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:sendButton];
+    
     [[WHDemoBubbleView appearance] setFont:[UIFont systemFontOfSize:16.0f]];
     
     [self setBackgroundColor:[UIColor backgroundColorClassic]];
@@ -66,16 +73,12 @@
     self.avatars = @{kSubtitleJobs: [WHDemoAvatarImageFactory avatarImageNamed:@"demo-avatar-jobs" croppedToCircle:YES],
                      kSubtitleWoz: [WHDemoAvatarImageFactory avatarImageNamed:@"demo-avatar-woz" croppedToCircle:YES],
                      kSubtitleCook: [WHDemoAvatarImageFactory avatarImageNamed:@"demo-avatar-cook" croppedToCircle:YES]};
-    
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFastForward
-                                                                                           target:self
-                                                                                           action:@selector(buttonPressed:)];
 }
 
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [self scrollToBottomAnimated:NO];
+    [self scrollToBottomAnimated:animated];
 }
 
 
@@ -84,13 +87,6 @@
     self.collectionView.backgroundColor = color;
 }
 
-
-#pragma mark - Actions
-- (void)buttonPressed:(UIBarButtonItem *)sender {
-    // Testing pushing/popping messages view
-    WHDemoViewController *vc = [[WHDemoViewController alloc] init];
-    [self.navigationController pushViewController:vc animated:YES];
-}
 
 #pragma mark - Table view data source
 - (void)registerObjectsToCollectionView:(UICollectionView *)collectionView {
@@ -137,19 +133,28 @@
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     NSLog(@"%@", indexPath);
+    WHDemoViewController *vc = [[WHDemoViewController alloc] init];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 
 #pragma mark - Messages view delegate: OPTIONAL
 - (BOOL)shouldDisplayTimestampForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.row % 3 == 0) {
-        return YES;
-    }
-    return NO;
+    return !(indexPath.row % 3);
 }
 
 
 #pragma mark - WHMessagesViewDelegate
+- (WHMessageInputViewStyle)inputViewStyle {
+    return WHMessageInputViewStyleFlatFullExperience;
+}
+
+
+- (UIButton *)sendButtonForInputView {
+    return (UIButton *)self.navigationItem.rightBarButtonItem.customView;
+}
+
+
 - (NSInteger)numberOfSections {
     return 1;
 }
@@ -167,48 +172,7 @@
     WHSimpleMessageCell *cell = (WHSimpleMessageCell *)aCell;
     cell.titleLabel.text = [self messageForRowAtIndexPath:indexPath].text;
     
-//    WHDemoBubbleMessageCell *cell = (WHDemoBubbleMessageCell *)aCell;
-//    WHBubbleMessageType type = [self messageTypeForRowAtIndexPath:indexPath];
-//    
-//    UIImageView *bubbleImageView = [self bubbleImageViewWithType:type
-//                                               forRowAtIndexPath:indexPath];
-//    
-//    BOOL displayTimestamp = [self shouldDisplayTimestampForRowAtIndexPath:indexPath];
-//    
-//    WHDemoMessage * message = [self messageForRowAtIndexPath:indexPath];
-//    UIImage *avatarImage = [self avatarImageViewForRowAtIndexPath:indexPath sender:[message sender]];
-//    
-//    
-//    [cell configureWithType:type
-//            bubbleImageView:bubbleImageView
-//                    message:message
-//          displaysTimestamp:displayTimestamp
-//                     avatar:(avatarImage != nil)];
-//    
-//    [cell setAvatarImage:avatarImage];
-//    //    [cell setBackgroundColor:collectionView.backgroundColor];
-//    
-//    
-//    if ([cell messageType] == WHBubbleMessageTypeOutgoing) {
-//        cell.bubbleView.textView.textColor = [UIColor whiteColor];
-//        
-//        if ([cell.bubbleView.textView respondsToSelector:@selector(linkTextAttributes)]) {
-//            NSMutableDictionary *attrs = [cell.bubbleView.textView.linkTextAttributes mutableCopy];
-//            [attrs setValue:[UIColor blueColor] forKey:UITextAttributeTextColor];
-//            
-//            cell.bubbleView.textView.linkTextAttributes = attrs;
-//        }
-//    }
-//    
-//    if (cell.timestampLabel) {
-//        cell.timestampLabel.textColor = [UIColor lightGrayColor];
-//        cell.timestampLabel.shadowOffset = CGSizeZero;
-//    }
-//    
-//    if (cell.subtitleLabel) {
-//        cell.subtitleLabel.textColor = [UIColor lightGrayColor];
-//    }
-//    
+
 //#if TARGET_IPHONE_SIMULATOR
 //    cell.bubbleView.textView.dataDetectorTypes = UIDataDetectorTypeNone;
 //#else
@@ -216,12 +180,6 @@
 //#endif
 }
 
-//  *** Implement to use a custom send button
-//
-//  The button's frame is set automatically for you
-//
-//  - (UIButton *)sendButtonForInputView
-//
 
 //  *** Implement to prevent auto-scrolling when message is added
 //
@@ -246,7 +204,7 @@
  *  @return An object that conforms to the `WHMessageData` protocol containing the message data. This value must not be `nil`.
  */
 - (WHDemoMessage *)messageForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return (self.messages)[indexPath.row];
+    return (self.messages)[((NSUInteger)indexPath.row)];
 }
 
 

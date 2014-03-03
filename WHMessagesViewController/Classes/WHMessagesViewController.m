@@ -21,7 +21,9 @@
 
 @property(assign, nonatomic) CGFloat previousTextViewContentHeight;
 @property(assign, nonatomic) BOOL isUserScrolling;
-@property (weak, nonatomic, readwrite) WHMessageInputView *messageInputView;
+@property(assign, nonatomic) BOOL allowsPan;
+@property(nonatomic, readwrite) WHMessageInputViewStyle inputViewStyle;
+@property(weak, nonatomic, readwrite) WHMessageInputView *messageInputView;
 
 @end
 
@@ -31,49 +33,32 @@
 #pragma mark - Initialization
 - (id)init {
     self = [super initWithCollectionViewLayout:[[UICollectionViewFlowLayout alloc] init]];
+    if (self) {
+        self.allowsPan = YES;
+        self.inputViewStyle = WHMessageInputViewStyleFlat;
+    }
+    
     return self;
 }
 
 
-- (void)setupAfterViewDidLoad {
-    if ([self.view isKindOfClass:[UIScrollView class]]) {
-        // FIXME: hack-ish fix for ipad modal form presentations
-        ((UIScrollView *) self.view).scrollEnabled = NO;
-    }
+#pragma mark - Getter
+- (WHMessageInputView *)messageInputView {
+    if (_messageInputView)
+        return _messageInputView;
     
-    _isUserScrolling = NO;
-    
-    // Default inputViewStyle is the iOS7 one.
-    WHMessageInputViewStyle inputViewStyle = WHMessageInputViewStyleFlat;
-    if ([self.messageDelegate respondsToSelector:@selector(inputViewStyle)]) {
-        inputViewStyle = [self.messageDelegate inputViewStyle];
-    }
-    
-    CGFloat inputViewHeight = (inputViewStyle == WHMessageInputViewStyleFlat) ? 45.0f : 40.0f;
-    
-    [self setInsetsWithBottomValue:inputViewHeight];
+    CGFloat inputViewHeight = (self.inputViewStyle == WHMessageInputViewStyleFlat) ? 45.0f : 40.0f;
+    UIPanGestureRecognizer *pan = self.allowsPan ? self.collectionView.panGestureRecognizer : nil;
     
     CGRect inputFrame = CGRectMake(0.0f,
                                    self.view.frame.size.height - inputViewHeight,
                                    self.view.frame.size.width,
                                    inputViewHeight);
     
-    BOOL allowsPan = YES;
-    if ([self.messageDelegate respondsToSelector:@selector(allowsPanToDismissKeyboard)]) {
-        allowsPan = [self.messageDelegate allowsPanToDismissKeyboard];
-    }
-    
-    UIPanGestureRecognizer *pan = allowsPan ? self.collectionView.panGestureRecognizer : nil;
-    
     WHMessageInputView *inputView = [[WHMessageInputView alloc] initWithFrame:inputFrame
-                                                                        style:inputViewStyle
+                                                                        style:self.inputViewStyle
                                                                      delegate:self
                                                          panGestureRecognizer:pan];
-    
-    if (!allowsPan) {
-        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapGestureRecognizer:)];
-        [self.collectionView addGestureRecognizer:tap];
-    }
     
     if ([self.messageDelegate respondsToSelector:@selector(sendButtonForInputView)]) {
         UIButton *sendButton = [self.messageDelegate sendButtonForInputView];
@@ -88,15 +73,41 @@
     [self.view addSubview:inputView];
     self.messageInputView = inputView;
     
-    // Cell register
-    [self.messageDataSource registerObjectsToCollectionView:self.collectionView];
+    return _messageInputView;
 }
 
 
 #pragma mark - View lifecycle
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self setupAfterViewDidLoad];
+    if ([self.view isKindOfClass:[UIScrollView class]]) {
+        // FIXME: hack-ish fix for ipad modal form presentations
+        ((UIScrollView *) self.view).scrollEnabled = NO;
+    }
+    
+    _isUserScrolling = NO;
+    
+    // Ask delegate for inputViewStyle.
+    if ([self.messageDelegate respondsToSelector:@selector(inputViewStyle)]) {
+        self.inputViewStyle = [self.messageDelegate inputViewStyle];
+    }
+    
+    // Set insets
+    CGFloat inputViewHeight = (self.inputViewStyle == WHMessageInputViewStyleFlat) ? 45.0f : 40.0f;
+    [self setInsetsWithBottomValue:inputViewHeight];
+    
+    // Ask delegate for allowsPan.
+    if ([self.messageDelegate respondsToSelector:@selector(allowsPanToDismissKeyboard)]) {
+        self.allowsPan = [self.messageDelegate allowsPanToDismissKeyboard];
+    }
+    
+    if (!self.allowsPan) {
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapGestureRecognizer:)];
+        [self.collectionView addGestureRecognizer:tap];
+    }
+    
+    // Register cells/views
+    [self.messageDataSource registerObjectsToCollectionView:self.collectionView];
 }
 
 
@@ -114,36 +125,27 @@
                                                object:nil];
     
     [self.messageInputView.textView addObserver:self
-                                     forKeyPath:@"contentSize"
+                                     forKeyPath:NSStringFromSelector(@selector(contentSize))
                                         options:NSKeyValueObservingOptionNew
                                         context:nil];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
+    [self scrollToBottomAnimated:animated];
 }
 
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     
-    [self.messageInputView resignFirstResponder];
-    [self setEditing:NO animated:YES];
-    
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
-    
-    [self.messageInputView.textView removeObserver:self forKeyPath:@"contentSize"];
+    [self dismissKeyboard];
+    [self safelyRemoveObservers];
 }
 
 
 #pragma mark - View rotation
-- (BOOL)shouldAutorotate {
-    return YES;
-}
-
-
-- (NSUInteger)supportedInterfaceOrientations {
-    return UIInterfaceOrientationMaskAllButUpsideDown;
-}
-
-
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
     [super willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
     [self.collectionView reloadData];
@@ -157,11 +159,15 @@
                                onDate:[NSDate date]];
     
     [self finishSend];
-    [self scrollToBottomAnimated:YES];
 }
 
 
 - (void)handleTapGestureRecognizer:(UITapGestureRecognizer *)tap {
+    [self dismissKeyboard];
+}
+
+
+- (void)dismissKeyboard {
     [self.messageInputView.textView resignFirstResponder];
 }
 
@@ -197,6 +203,9 @@
     [self.messageInputView.textView setText:nil];
     [self textViewDidChange:self.messageInputView.textView];
     [self.collectionView reloadData];
+    [self scrollToBottomAnimated:YES];
+    
+    [self performSelector:@selector(dismissKeyboard) withObject:nil afterDelay:0.25];
 }
 
 
@@ -240,9 +249,6 @@
 #pragma mark - Scroll view delegate
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
     self.isUserScrolling = YES;
-    
-    [self.messageInputView.textView resignFirstResponder];
-    
 }
 
 
@@ -286,12 +292,12 @@
         changeInHeight = MIN(changeInHeight, maxHeight - self.previousTextViewContentHeight);
     }
     
-    if (changeInHeight != 0.0f) {
+    if (changeInHeight) {
         [UIView animateWithDuration:0.25f
                          animations:^{
                              [self setInsetsWithBottomValue:self.collectionView.contentInset.bottom + changeInHeight];
                              
-                             [self scrollToBottomAnimated:NO];
+//                             [self scrollToBottomAnimated:NO];
                              
                              if (isShrinking) {
                                  // if shrinking the view, animate text view frame BEFORE input view frame
@@ -310,6 +316,7 @@
                              }
                          }
                          completion:^(BOOL finished) {
+                             [self scrollToBottomAnimated:YES];
                          }];
         
         self.previousTextViewContentHeight = MIN(textView.contentSize.height, maxHeight);
@@ -340,12 +347,10 @@
 - (UIEdgeInsets)collectionViewInsetsWithBottomValue:(CGFloat)bottom {
     UIEdgeInsets insets = UIEdgeInsetsZero;
     
-    if ([self respondsToSelector:@selector(topLayoutGuide)]) {
+    if ([self respondsToSelector:@selector(topLayoutGuide)])
         insets.top = self.topLayoutGuide.length;
-    }
     
     insets.bottom = bottom;
-    
     return insets;
 }
 
@@ -355,7 +360,7 @@
                       ofObject:(id)object
                         change:(NSDictionary *)change
                        context:(void *)context {
-    if (object == self.messageInputView.textView && [keyPath isEqualToString:@"contentSize"]) {
+    if (object == self.messageInputView.textView && [keyPath isEqualToString:NSStringFromSelector(@selector(contentSize))]) {
         [self layoutAndAnimateMessageInputTextView:object];
     }
 }
@@ -439,12 +444,11 @@
     }
 }
 
-
-#pragma mark - Memory
-- (void)dealloc {
-#warning FIX ME
+- (void)safelyRemoveObservers {
     @try {
-        [self.messageInputView.textView removeObserver:self forKeyPath:@"contentSize"];
+        [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
+        [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
+        [self.messageInputView.textView removeObserver:self forKeyPath:NSStringFromSelector(@selector(contentSize))];
     }
     @catch (NSException *exception) {
         NSLog(@"%@", exception);
@@ -452,7 +456,12 @@
     @finally {
         NSLog(@"@finally");
     }
-    
+}
+
+
+#pragma mark - Memory
+- (void)dealloc {
+    [self safelyRemoveObservers];
     _messageDelegate = nil;
     _messageDataSource = nil;
     _messageInputView = nil;
