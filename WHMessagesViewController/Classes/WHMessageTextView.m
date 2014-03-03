@@ -35,7 +35,7 @@
 
 - (void)setup {
     _placeHolderTextColor = [UIColor lightGrayColor];
-
+    
     self.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     self.scrollIndicatorInsets = UIEdgeInsetsMake(10.0f, 0.0f, 10.0f, 8.0f);
     self.contentInset = UIEdgeInsetsZero;
@@ -49,7 +49,7 @@
     self.keyboardType = UIKeyboardTypeDefault;
     self.returnKeyType = UIReturnKeyDefault;
     self.textAlignment = NSTextAlignmentLeft;
-
+    
     [self addTextViewNotificationObservers];
 }
 
@@ -84,13 +84,13 @@
     if ([placeHolder isEqualToString:_placeHolder]) {
         return;
     }
-
+    
     NSUInteger maxChars = [WHMessageTextView maxCharactersPerLine];
     if ([placeHolder length] > maxChars) {
         placeHolder = [placeHolder substringToIndex:maxChars - 8];
         placeHolder = [[placeHolder stringByTrimingWhitespace] stringByAppendingFormat:@"..."];
     }
-
+    
     _placeHolder = placeHolder;
     [self setNeedsDisplay];
 }
@@ -100,7 +100,7 @@
     if ([placeHolderTextColor isEqual:_placeHolderTextColor]) {
         return;
     }
-
+    
     _placeHolderTextColor = placeHolderTextColor;
     [self setNeedsDisplay];
 }
@@ -149,31 +149,23 @@
 
 - (void)drawRect:(CGRect)rect {
     [super drawRect:rect];
-
+    
     if ([self.text length] == 0 && self.placeHolder) {
         CGRect placeHolderRect = CGRectMake(10.0f,
-                7.0f,
-                rect.size.width,
-                rect.size.height);
-
+                                            7.0f,
+                                            rect.size.width,
+                                            rect.size.height);
+        
         [self.placeHolderTextColor set];
-
-        if (NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_6_0) {
-            NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
-            paragraphStyle.lineBreakMode = NSLineBreakByTruncatingTail;
-            paragraphStyle.alignment = self.textAlignment;
-
-            [self.placeHolder drawInRect:placeHolderRect
-                          withAttributes:@{NSFontAttributeName : self.font,
-                                  NSForegroundColorAttributeName : self.placeHolderTextColor,
-                                  NSParagraphStyleAttributeName : paragraphStyle}];
-        }
-        else {
-            [self.placeHolder drawInRect:placeHolderRect
-                                withFont:self.font
-                           lineBreakMode:NSLineBreakByTruncatingTail
-                               alignment:self.textAlignment];
-        }
+        
+        NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+        paragraphStyle.lineBreakMode = NSLineBreakByTruncatingTail;
+        paragraphStyle.alignment = self.textAlignment;
+        
+        [self.placeHolder drawInRect:placeHolderRect
+                      withAttributes:@{NSFontAttributeName : self.font,
+                                       NSForegroundColorAttributeName : self.placeHolderTextColor,
+                                       NSParagraphStyleAttributeName : paragraphStyle}];
     }
 }
 
@@ -184,12 +176,12 @@
                                              selector:@selector(didReceiveTextViewNotification:)
                                                  name:UITextViewTextDidChangeNotification
                                                object:self];
-
+    
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(didReceiveTextViewNotification:)
                                                  name:UITextViewTextDidBeginEditingNotification
                                                object:self];
-
+    
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(didReceiveTextViewNotification:)
                                                  name:UITextViewTextDidEndEditingNotification
@@ -201,11 +193,11 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self
                                                     name:UITextViewTextDidChangeNotification
                                                   object:self];
-
+    
     [[NSNotificationCenter defaultCenter] removeObserver:self
                                                     name:UITextViewTextDidBeginEditingNotification
                                                   object:self];
-
+    
     [[NSNotificationCenter defaultCenter] removeObserver:self
                                                     name:UITextViewTextDidEndEditingNotification
                                                   object:self];

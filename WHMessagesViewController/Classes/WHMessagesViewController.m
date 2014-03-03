@@ -34,11 +34,26 @@
 - (id)init {
     self = [super initWithCollectionViewLayout:[[UICollectionViewFlowLayout alloc] init]];
     if (self) {
-        self.allowsPan = YES;
-        self.inputViewStyle = WHMessageInputViewStyleFlat;
+        [self setup];
     }
     
     return self;
+}
+
+
+- (id)initWithCollectionViewLayout:(UICollectionViewLayout *)layout
+{
+    self = [super initWithCollectionViewLayout:layout];
+    if (self) {
+        [self setup];
+    }
+    return self;
+}
+
+
+- (void)setup {
+    self.allowsPan = YES;
+    self.inputViewStyle = WHMessageInputViewStyleFlat;
 }
 
 

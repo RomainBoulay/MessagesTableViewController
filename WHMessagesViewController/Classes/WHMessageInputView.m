@@ -116,13 +116,7 @@
         sendButton.titleLabel.font = [UIFont boldSystemFontOfSize:18.0f];
     }
 
-    NSString *title = NSLocalizedString(@"Send", nil);
-    [sendButton setTitle:title forState:UIControlStateNormal];
-    [sendButton setTitle:title forState:UIControlStateHighlighted];
-    [sendButton setTitle:title forState:UIControlStateDisabled];
-
     sendButton.autoresizingMask = (UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleLeftMargin);
-
     [self setSendButton:sendButton];
 }
 
@@ -194,7 +188,7 @@
 
     //  below iOS 7, if you set the text view frame programmatically, the KVO will continue notifying
     //  to avoid that, we are removing the observer before setting the frame and add the observer after setting frame here.
-    [self.textView removeObserver:_textView.keyboardDelegate
+    [self.textView removeObserver:(NSObject *)_textView.keyboardDelegate
                        forKeyPath:NSStringFromSelector(@selector(contentSize))];
 
     self.textView.frame = CGRectMake(prevFrame.origin.x,
@@ -202,7 +196,7 @@
             prevFrame.size.width,
             prevFrame.size.height + changeInHeight);
 
-    [self.textView addObserver:_textView.keyboardDelegate
+    [self.textView addObserver:(NSObject *)_textView.keyboardDelegate
                     forKeyPath:NSStringFromSelector(@selector(contentSize))
                        options:NSKeyValueObservingOptionNew
                        context:nil];
