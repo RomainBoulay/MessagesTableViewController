@@ -123,6 +123,12 @@
     
     // Register cells/views
     [self.messageDataSource registerObjectsToCollectionView:self.collectionView];
+    
+    // Refresh UI state on WillEnterForeground Notification
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(refreshUIState)
+                                                 name:UIApplicationWillEnterForegroundNotification
+                                               object:nil];
 }
 
 
@@ -157,6 +163,12 @@
     
     [self dismissKeyboard];
     [self safelyRemoveObservers];
+}
+
+
+- (void)refreshUIState {
+    if (self.isViewLoaded)
+        [self.collectionView reloadData];
 }
 
 
@@ -463,6 +475,7 @@
     @try {
         [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
         [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
+        [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillEnterForegroundNotification object:nil];
         [self.messageInputView.textView removeObserver:self forKeyPath:NSStringFromSelector(@selector(contentSize))];
     }
     @catch (NSException *exception) {
