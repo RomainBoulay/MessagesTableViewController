@@ -13,19 +13,13 @@
 //
 
 #import "WHMessageInputView.h"
-
 #import "NSString+WHMessagesView.h"
-#import "UIColor+WHMessagesView.h"
-
-
-@interface WHMessageInputView ()
-@end
 
 
 @implementation WHMessageInputView
 
-#pragma mark - Initialization
 
+#pragma mark - Initialization
 - (void)setup {
     self.backgroundColor = [UIColor whiteColor];
     self.autoresizingMask = (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin);
@@ -115,9 +109,9 @@
         sendButton = [UIButton buttonWithType:UIButtonTypeCustom];
         sendButton.backgroundColor = [UIColor clearColor];
 
-        [sendButton setTitleColor:[UIColor bubbleBlueColor] forState:UIControlStateNormal];
-        [sendButton setTitleColor:[UIColor bubbleBlueColor] forState:UIControlStateHighlighted];
-        [sendButton setTitleColor:[UIColor bubbleLightGrayColor] forState:UIControlStateDisabled];
+        [sendButton setTitleColor:[self.class bubbleBlueColor] forState:UIControlStateNormal];
+        [sendButton setTitleColor:[self.class bubbleBlueColor] forState:UIControlStateHighlighted];
+        [sendButton setTitleColor:[self.class bubbleLightGrayColor] forState:UIControlStateDisabled];
 
         sendButton.titleLabel.font = [UIFont boldSystemFontOfSize:18.0f];
     }
@@ -242,5 +236,32 @@
 + (CGFloat)maxHeight {
     return ([WHMessageInputView maxLines] + 1.0f) * [WHMessageInputView textViewLineHeight];
 }
+
+
+#pragma mark - Colors
+#pragma mark - Bubble colors
++ (UIColor *)bubbleGreenColor {
+    return [UIColor colorWithHue:130.0f / 360.0f
+                      saturation:0.68f
+                      brightness:0.80f
+                           alpha:1.0f];
+}
+
+
++ (UIColor *)bubbleBlueColor {
+    return [UIColor colorWithHue:210.0f / 360.0f
+                      saturation:0.94f
+                      brightness:1.0f
+                           alpha:1.0f];
+}
+
+
++ (UIColor *)bubbleLightGrayColor {
+    return [UIColor colorWithHue:240.0f / 360.0f
+                      saturation:0.02f
+                      brightness:0.92f
+                           alpha:1.0f];
+}
+
 
 @end
