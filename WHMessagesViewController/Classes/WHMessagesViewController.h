@@ -166,7 +166,7 @@
  *
  *  @param animated `YES` if you want to animate scrolling, `NO` if it should be immediate.
  */
-- (void)scrollToBottomAnimated:(BOOL)animated;
+- (void)scrollToLastCellAnimated:(BOOL)animated;
 
 
 /**

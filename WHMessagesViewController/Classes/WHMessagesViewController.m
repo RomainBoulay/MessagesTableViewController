@@ -129,6 +129,9 @@
                                              selector:@selector(refreshUIState)
                                                  name:UIApplicationWillEnterForegroundNotification
                                                object:nil];
+    
+    [self.collectionView reloadData];
+    [self.collectionView scrollToBottomAnimated:NO];
 }
 
 
@@ -149,12 +152,15 @@
                                      forKeyPath:NSStringFromSelector(@selector(contentSize))
                                         options:NSKeyValueObservingOptionNew
                                         context:nil];
+    
+    [self scrollToLastCellAnimated:NO];
 }
+
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
-    [self scrollToBottomAnimated:animated];
+    [self scrollToLastCellAnimated:animated];
 }
 
 
@@ -230,19 +236,20 @@
     [self.messageInputView.textView setText:nil];
     [self textViewDidChange:self.messageInputView.textView];
     [self.collectionView reloadData];
-    [self scrollToBottomAnimated:YES];
+    [self scrollToLastCellAnimated:YES];
     
     [self performSelector:@selector(dismissKeyboard) withObject:nil afterDelay:0.25];
 }
 
 
-- (void)scrollToBottomAnimated:(BOOL)animated {
+- (void)scrollToLastCellAnimated:(BOOL)animated {
     if (![self shouldAllowScroll])
         return;
     
-    NSInteger rows = [self.collectionView numberOfItemsInSection:0];
+    NSInteger section = [self.collectionView numberOfSections];
+    NSInteger rows = [self.collectionView numberOfItemsInSection:section-1];
     if (rows > 0) {
-        [self.collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:rows - 1 inSection:0]
+        [self.collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:rows-1 inSection:section-1]
                                     atScrollPosition:UICollectionViewScrollPositionBottom
                                             animated:animated];
     }
@@ -291,7 +298,7 @@
     if (!self.previousTextViewContentHeight)
         self.previousTextViewContentHeight = textView.contentSize.height;
     
-    [self scrollToBottomAnimated:YES];
+    [self scrollToLastCellAnimated:YES];
 }
 
 
@@ -343,7 +350,7 @@
                              }
                          }
                          completion:^(BOOL finished) {
-                             [self scrollToBottomAnimated:YES];
+                             [self scrollToLastCellAnimated:YES];
                          }];
         
         self.previousTextViewContentHeight = MIN(textView.contentSize.height, maxHeight);
