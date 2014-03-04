@@ -155,12 +155,7 @@
 #pragma mark - Setters
 
 - (void)setSendButton:(UIButton *)btn {
-    if (_sendButton) {
-        if ([_sendButton respondsToSelector:@selector(removeFromSuperview)])
-            [_sendButton removeFromSuperview];
-        else
-            _sendButton = nil;
-    }
+    [_sendButton removeFromSuperview];
 
     if (self.style == WHMessageInputViewStyleClassic) {
         btn.frame = CGRectMake(self.frame.size.width - 65.0f, 8.0f, 59.0f, 26.0f);

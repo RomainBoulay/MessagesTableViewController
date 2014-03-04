@@ -94,18 +94,14 @@ static UINib *cellNib;
     
     CGSize stringSize;
     
-    if ([txt respondsToSelector:@selector(boundingRectWithSize:options:attributes:context:)]) {
-        CGRect stringRect = [txt boundingRectWithSize:CGSizeMake(maxWidth, maxHeight)
-                                              options:NSStringDrawingUsesLineFragmentOrigin
-                                           attributes:@{ NSFontAttributeName : [self font] }
-                                              context:nil];
-        
-        stringSize = CGRectIntegral(stringRect).size;
-    }
-    else {
-        stringSize = [txt sizeWithFont:[self font]
-                     constrainedToSize:CGSizeMake(maxWidth, maxHeight)];
-    }
+    CGRect stringRect = [txt boundingRectWithSize:CGSizeMake(maxWidth, maxHeight)
+                                          options:NSStringDrawingUsesLineFragmentOrigin
+                                       attributes:@{ NSFontAttributeName : [self font] }
+                                          context:nil];
+    
+    stringSize = CGRectIntegral(stringRect).size;
+    //        stringSize = [txt sizeWithFont:[self font]
+    //                     constrainedToSize:CGSizeMake(maxWidth, maxHeight)];
     
     return CGSizeMake(roundf(stringSize.width), roundf(stringSize.height));
 }

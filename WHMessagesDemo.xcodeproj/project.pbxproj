@@ -180,11 +180,11 @@
 		88A3FC1C182E0EA000705327 /* NSString+WHMessagesView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+WHMessagesView.h"; sourceTree = "<group>"; };
 		88A3FC1D182E0EA000705327 /* NSString+WHMessagesView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+WHMessagesView.m"; sourceTree = "<group>"; };
 		88A3FC2F182E0EA000705327 /* WHDismissiveTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WHDismissiveTextView.h; sourceTree = "<group>"; };
-		88A3FC30182E0EA000705327 /* WHDismissiveTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = WHDismissiveTextView.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		88A3FC30182E0EA000705327 /* WHDismissiveTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = WHDismissiveTextView.m; sourceTree = "<group>"; };
 		88A3FC31182E0EA000705327 /* WHMessageInputView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WHMessageInputView.h; sourceTree = "<group>"; };
-		88A3FC32182E0EA000705327 /* WHMessageInputView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = WHMessageInputView.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		88A3FC32182E0EA000705327 /* WHMessageInputView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = WHMessageInputView.m; sourceTree = "<group>"; };
 		88A3FC35182E0EA000705327 /* WHMessagesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WHMessagesViewController.h; sourceTree = "<group>"; };
-		88A3FC36182E0EA000705327 /* WHMessagesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = WHMessagesViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		88A3FC36182E0EA000705327 /* WHMessagesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = WHMessagesViewController.m; sourceTree = "<group>"; };
 		88A3FC37182E0EA000705327 /* WHMessageTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WHMessageTextView.h; sourceTree = "<group>"; };
 		88A3FC38182E0EA000705327 /* WHMessageTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = WHMessageTextView.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 /* End PBXFileReference section */
