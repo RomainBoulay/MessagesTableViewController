@@ -403,14 +403,21 @@
 }
 
 
+#pragma mark - Insets
 - (void)setInsetsWithBottomValue:(CGFloat)bottom {
-    self.bottomLayoutGuideLength = @(bottom);
-    [self updateCollectionViewInsets];
+    UIEdgeInsets insets = self.collectionView.contentInset;
+    insets.bottom = bottom;
+    [self setInsets:insets];
 }
 
 
 - (void)updateCollectionViewInsets {
     UIEdgeInsets insets = [self collectionViewInsets];
+    [self setInsets:insets];
+}
+
+
+- (void)setInsets:(UIEdgeInsets)insets {
     self.collectionView.contentInset = insets;
     self.collectionView.scrollIndicatorInsets = insets;
 }
