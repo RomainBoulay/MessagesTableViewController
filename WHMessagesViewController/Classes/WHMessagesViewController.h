@@ -131,6 +131,11 @@
 @interface WHMessagesViewController : UICollectionViewController <UICollectionViewDataSource, UICollectionViewDelegate, UITextViewDelegate>
 
 
+@property(strong, nonatomic) NSNumber *topLayoutGuideLength;
+@property(strong, nonatomic) NSNumber *bottomLayoutGuideLength;
+- (void)updateCollectionViewInsets;
+
+
 /**
  *  The object that acts as the delegate of the receiving messages view.
  */
@@ -150,6 +155,18 @@
 
 
 #pragma mark - Messages view controller
+/**
+ *  Triggers the keyboard appearance
+ */
+- (void)beginTextEdition;
+
+
+/**
+ *  Dismiss keyboard
+ */
+- (void)endTextEdition;
+
+
 /**
  *  Animates and resets the text view in messageInputView. This method is called at the end of the delegate method `didSendText:`. 
  *  @see WHMessagesViewDelegate.

@@ -15,6 +15,7 @@
 #import "WHMessagesViewController.h"
 
 #import "NSString+WHMessagesView.h"
+#import "UIScrollView+Utils.h"
 
 
 @interface WHMessagesViewController () <WHDismissiveTextViewDelegate>
@@ -29,6 +30,7 @@
 
 
 @implementation WHMessagesViewController
+
 
 #pragma mark - Initialization
 - (id)init {
@@ -58,13 +60,18 @@
 
 
 #pragma mark - Getter
+- (BOOL)isInputViewFlat {
+    return (self.inputViewStyle == WHMessageInputViewStyleFlat || self.inputViewStyle == WHMessageInputViewStyleFlatFullExperience);
+}
+
+
 - (WHMessageInputView *)messageInputView {
     if (_messageInputView)
         return _messageInputView;
     
-    CGFloat inputViewHeight = (self.inputViewStyle == WHMessageInputViewStyleFlat) ? 45.0f : 40.0f;
+    CGFloat inputViewHeight = (self.isInputViewFlat) ? 45.0f : 40.0f;
     UIPanGestureRecognizer *pan = self.allowsPan ? self.collectionView.panGestureRecognizer : nil;
-    
+
     CGRect inputFrame = CGRectMake(0.0f,
                                    self.view.frame.size.height - inputViewHeight,
                                    self.view.frame.size.width,
@@ -131,7 +138,6 @@
                                                object:nil];
     
     [self.collectionView reloadData];
-    [self.collectionView scrollToBottomAnimated:NO];
 }
 
 
@@ -148,6 +154,12 @@
                                                  name:UIKeyboardWillHideNotification
                                                object:nil];
     
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(handleDidHideKeyboardNotification:)
+                                                 name:UIKeyboardDidHideNotification
+                                               object:nil];
+    
+    
     [self.messageInputView.textView addObserver:self
                                      forKeyPath:NSStringFromSelector(@selector(contentSize))
                                         options:NSKeyValueObservingOptionNew
@@ -160,7 +172,8 @@
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
-    [self scrollToLastCellAnimated:animated];
+//    [self scrollToLastCellAnimated:animated];
+    [self.collectionView scrollToBottomAnimated:animated];
 }
 
 
@@ -187,6 +200,18 @@
 
 
 #pragma mark - Actions
+- (void)beginTextEdition {
+    self.editing = YES;
+    [self.messageInputView.textView becomeFirstResponder];
+}
+
+
+- (void)endTextEdition {
+    [self dismissKeyboard];
+    self.editing = NO;
+}
+
+
 - (void)sendPressed:(UIButton *)sender {
     [self.messageDelegate didSendText:[self.messageInputView.textView.text stringByTrimingWhitespace]
                                onDate:[NSDate date]];
@@ -202,6 +227,7 @@
 
 - (void)dismissKeyboard {
     [self.messageInputView.textView resignFirstResponder];
+    
 }
 
 
@@ -246,13 +272,19 @@
     if (![self shouldAllowScroll])
         return;
     
-    NSInteger section = [self.collectionView numberOfSections];
-    NSInteger rows = [self.collectionView numberOfItemsInSection:section-1];
-    if (rows > 0) {
-        [self.collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:rows-1 inSection:section-1]
+    NSInteger section = [self.collectionView numberOfSections]-1;
+    NSInteger row = [self.collectionView numberOfItemsInSection:section]-1;
+    if (row >= 0 && section >= 0) {
+        [self.collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:row inSection:section]
                                     atScrollPosition:UICollectionViewScrollPositionBottom
                                             animated:animated];
     }
+}
+
+
+- (void)scrollToBottomAnimated:(BOOL)animated {
+    CGPoint bottomOffset = CGPointMake(0, self.collectionView.contentSize.height - self.collectionView.frame.size.height);
+    [self.collectionView setContentOffset:bottomOffset animated:animated];
 }
 
 
@@ -372,19 +404,31 @@
 
 
 - (void)setInsetsWithBottomValue:(CGFloat)bottom {
-    UIEdgeInsets insets = [self collectionViewInsetsWithBottomValue:bottom];
+    self.bottomLayoutGuideLength = @(bottom);
+    [self updateCollectionViewInsets];
+}
+
+
+- (void)updateCollectionViewInsets {
+    UIEdgeInsets insets = [self collectionViewInsets];
     self.collectionView.contentInset = insets;
     self.collectionView.scrollIndicatorInsets = insets;
 }
 
 
-- (UIEdgeInsets)collectionViewInsetsWithBottomValue:(CGFloat)bottom {
-    UIEdgeInsets insets = UIEdgeInsetsZero;
+- (UIEdgeInsets)collectionViewInsets {
+    UIEdgeInsets insets = self.collectionView.contentInset;
     
-    if ([self respondsToSelector:@selector(topLayoutGuide)])
+    if (self.topLayoutGuideLength)
+        insets.top = self.topLayoutGuideLength.floatValue;
+    else if ([self respondsToSelector:@selector(topLayoutGuide)])
         insets.top = self.topLayoutGuide.length;
     
-    insets.bottom = bottom;
+    if (self.bottomLayoutGuideLength)
+        insets.bottom = self.bottomLayoutGuideLength.floatValue;
+    else if ([self respondsToSelector:@selector(bottomLayoutGuide)])
+        insets.bottom = self.bottomLayoutGuide.length;
+    
     return insets;
 }
 
@@ -402,6 +446,7 @@
 
 #pragma mark - Keyboard notifications
 - (void)handleWillShowKeyboardNotification:(NSNotification *)notification {
+    self.editing = YES;
     [self keyboardWillShowHide:notification];
 }
 
@@ -411,32 +456,36 @@
 }
 
 
+- (void)handleDidHideKeyboardNotification:(NSNotification *)notification {
+    self.editing = NO;
+}
+
+
 - (void)keyboardWillShowHide:(NSNotification *)notification {
     CGRect keyboardRect = [(notification.userInfo)[UIKeyboardFrameEndUserInfoKey] CGRectValue];
     UIViewAnimationCurve curve = [(notification.userInfo)[UIKeyboardAnimationCurveUserInfoKey] integerValue];
     double duration = [(notification.userInfo)[UIKeyboardAnimationDurationUserInfoKey] doubleValue];
     
+    CGFloat keyboardY = [self.view convertRect:keyboardRect fromView:nil].origin.y;
+    
+    CGRect inputViewFrame = self.messageInputView.frame;
+    CGFloat inputViewFrameY = keyboardY - inputViewFrame.size.height;
+    
+    // for ipad modal form presentations
+    CGFloat messageViewFrameBottom = self.view.frame.size.height - inputViewFrame.size.height;
+    if (inputViewFrameY > messageViewFrameBottom)
+        inputViewFrameY = messageViewFrameBottom;
+    
     [UIView animateWithDuration:duration
                           delay:0.0
                         options:[self animationOptionsForCurve:curve]
                      animations:^{
-                         CGFloat keyboardY = [self.view convertRect:keyboardRect fromView:nil].origin.y;
-                         
-                         CGRect inputViewFrame = self.messageInputView.frame;
-                         CGFloat inputViewFrameY = keyboardY - inputViewFrame.size.height;
-                         
-                         // for ipad modal form presentations
-                         CGFloat messageViewFrameBottom = self.view.frame.size.height - inputViewFrame.size.height;
-                         if (inputViewFrameY > messageViewFrameBottom)
-                             inputViewFrameY = messageViewFrameBottom;
-                         
                          self.messageInputView.frame = CGRectMake(inputViewFrame.origin.x,
                                                                   inputViewFrameY,
                                                                   inputViewFrame.size.width,
                                                                   inputViewFrame.size.height);
                          
-                         [self setInsetsWithBottomValue:self.view.frame.size.height
-                          - self.messageInputView.frame.origin.y];
+                         [self setInsetsWithBottomValue:self.view.frame.size.height - self.messageInputView.frame.origin.y];
                      }
                      completion:nil];
 }
@@ -483,6 +532,8 @@
         [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
         [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
         [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillEnterForegroundNotification object:nil];
+        [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardDidHideNotification object:nil];
+        
         [self.messageInputView.textView removeObserver:self forKeyPath:NSStringFromSelector(@selector(contentSize))];
     }
     @catch (NSException *exception) {

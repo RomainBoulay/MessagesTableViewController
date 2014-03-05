@@ -145,15 +145,15 @@
     _sendButton = nil;
 }
 
-#pragma mark - UIView
 
+#pragma mark - UIView
 - (BOOL)resignFirstResponder {
     [self.textView resignFirstResponder];
     return [super resignFirstResponder];
 }
 
-#pragma mark - Setters
 
+#pragma mark - Setters
 - (void)setSendButton:(UIButton *)btn {
     [_sendButton removeFromSuperview];
 
@@ -173,8 +173,8 @@
     _sendButton = btn;
 }
 
-#pragma mark - Message input view
 
+#pragma mark - Message input view
 - (void)adjustTextViewHeightBy:(CGFloat)changeInHeight {
     CGRect prevFrame = self.textView.frame;
 
