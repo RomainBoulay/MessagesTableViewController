@@ -11,4 +11,5 @@ Pod::Spec.new do |s|
 	s.source_files		= 'WHMessagesViewController/Classes/**/*'
 	s.frameworks		= 'QuartzCore'
 	s.requires_arc		= true
+	s.dependency 'KVOController', '~> 1.0'
 end

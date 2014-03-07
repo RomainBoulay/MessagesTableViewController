@@ -12,10 +12,8 @@
 //  http://opensource.org/licenses/MIT
 //
 
-#import <Foundation/Foundation.h>
 
-
-@interface NSString (WHMessagesView)
+@interface NSString (WHMessages)
 
 /**
  *  Returns a copy of the receiver with all whitespaced removed from the front and back.

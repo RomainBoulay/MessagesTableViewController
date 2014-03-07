@@ -15,5 +15,7 @@
 
 #ifdef __OBJC__
     @import UIKit;
-    #import <Foundation/Foundation.h>
+    @import Foundation;
+
+    #import <KVOController/FBKVOController.h>
 #endif

@@ -16,7 +16,7 @@
 
 #import "WHMessageInputView.h"
 #import "WHDemoAvatarImageFactory.h"
-#import "NSString+WHMessagesView.h"
+#import "NSString+WHMessages.h"
 
 #define kMarginTop 8.0f
 #define kMarginBottom 4.0f
@@ -228,20 +228,12 @@
     maxHeight += kJSAvatarImageSize;
     
     CGSize stringSize;
+    CGRect stringRect = [txt boundingRectWithSize:CGSizeMake(maxWidth, maxHeight)
+                                          options:NSStringDrawingUsesLineFragmentOrigin
+                                       attributes:@{ NSFontAttributeName : [[WHDemoBubbleView appearance] font] }
+                                          context:nil];
     
-    if (NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_6_0) {
-        CGRect stringRect = [txt boundingRectWithSize:CGSizeMake(maxWidth, maxHeight)
-                                              options:NSStringDrawingUsesLineFragmentOrigin
-                                           attributes:@{ NSFontAttributeName : [[WHDemoBubbleView appearance] font] }
-                                              context:nil];
-        
-        stringSize = CGRectIntegral(stringRect).size;
-    }
-    else {
-        stringSize = [txt sizeWithFont:[[WHDemoBubbleView appearance] font]
-                     constrainedToSize:CGSizeMake(maxWidth, maxHeight)];
-    }
-    
+    stringSize = CGRectIntegral(stringRect).size;
     return CGSizeMake(roundf(stringSize.width), roundf(stringSize.height));
 }
 

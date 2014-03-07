@@ -23,10 +23,6 @@
 @property(strong, nonatomic) UIView *keyboardView;
 @property(assign, nonatomic) CGFloat previousKeyboardY;
 
-- (void)handleKeyboardWillShowHideNotification:(NSNotification *)notification;
-
-- (void)handlePanGesture:(UIPanGestureRecognizer *)pan;
-
 @end
 
 

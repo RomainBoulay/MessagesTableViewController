@@ -20,6 +20,7 @@
 #import "WHDemoAvatarImageFactory.h"
 #import "WHDemoBubbleMessageCell.h"
 #import "WHSimpleMessageCell.h"
+#import "UIScrollView+WHMessages.h"
 
 #define kSubtitleJobs @"Jobs"
 #define kSubtitleWoz @"Steve Wozniak"
@@ -78,7 +79,7 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [self scrollToBottomAnimated:animated];
+    [self.collectionView scrollToBottomAnimated:animated];
 }
 
 

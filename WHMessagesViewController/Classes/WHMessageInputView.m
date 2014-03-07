@@ -13,8 +13,7 @@
 //
 
 #import "WHMessageInputView.h"
-#import "NSString+WHMessagesView.h"
-
+#import "NSString+WHMessages.h"
 
 @implementation WHMessageInputView
 
@@ -176,25 +175,27 @@
 
 #pragma mark - Message input view
 - (void)adjustTextViewHeightBy:(CGFloat)changeInHeight {
-    CGRect prevFrame = self.textView.frame;
-
     NSUInteger numLines = MAX([self.textView numberOfLinesOfText],
     [self.textView.text numberOfLines]);
 
-    //  below iOS 7, if you set the text view frame programmatically, the KVO will continue notifying
-    //  to avoid that, we are removing the observer before setting the frame and add the observer after setting frame here.
-    [self.textView removeObserver:(NSObject *)_textView.keyboardDelegate
-                       forKeyPath:NSStringFromSelector(@selector(contentSize))];
-
+    CGRect prevFrame = self.textView.frame;
     self.textView.frame = CGRectMake(prevFrame.origin.x,
-            prevFrame.origin.y,
-            prevFrame.size.width,
-            prevFrame.size.height + changeInHeight);
+                                     prevFrame.origin.y,
+                                     prevFrame.size.width,
+                                     prevFrame.size.height + changeInHeight);
 
-    [self.textView addObserver:(NSObject *)_textView.keyboardDelegate
-                    forKeyPath:NSStringFromSelector(@selector(contentSize))
-                       options:NSKeyValueObservingOptionNew
-                       context:nil];
+    
+//    //  below iOS 7, if you set the text view frame programmatically, the KVO will continue notifying
+//    //  to avoid that, we are removing the observer before setting the frame and add the observer after setting frame here.
+//    [self.textView removeObserver:(NSObject *)_textView.keyboardDelegate
+//                       forKeyPath:NSStringFromSelector(@selector(contentSize))];
+//
+
+//
+//    [self.textView addObserver:(NSObject *)_textView.keyboardDelegate
+//                    forKeyPath:NSStringFromSelector(@selector(contentSize))
+//                       options:NSKeyValueObservingOptionNew
+//                       context:nil];
 
     self.textView.contentInset = UIEdgeInsetsMake((numLines >= 6 ? 4.0f : 0.0f),
             0.0f,

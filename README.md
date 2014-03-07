@@ -93,7 +93,7 @@ Your model objects should conform to the `WHMessageData` protocol. However, you 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [self scrollToBottomAnimated:NO];
+    [self.collectionView scrollToBottomAnimated:NO];
 }
 ````
 

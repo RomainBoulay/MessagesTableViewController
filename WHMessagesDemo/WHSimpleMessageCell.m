@@ -8,7 +8,7 @@
 
 #import "WHSimpleMessageCell.h"
 
-#import "NSString+WHMessagesView.h"
+#import "NSString+WHMessages.h"
 
 
 #define kMarginTop 8.0f

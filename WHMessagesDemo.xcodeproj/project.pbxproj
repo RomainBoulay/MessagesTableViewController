@@ -10,6 +10,7 @@
 		331BFAE618C0FDDC00D902B3 /* WHSimpleMessageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 331BFAE518C0FDDC00D902B3 /* WHSimpleMessageCell.m */; };
 		331BFAE818C0FDEA00D902B3 /* WHSimpleMessageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 331BFAE718C0FDEA00D902B3 /* WHSimpleMessageCell.xib */; };
 		339917DA18C0F1E4001B4E68 /* WHDemoMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 339917D918C0F1E4001B4E68 /* WHDemoMessage.m */; };
+		339A44E418C9D68E00A7E867 /* UIScrollView+WHMessages.m in Sources */ = {isa = PBXBuildFile; fileRef = 339A44E318C9D68E00A7E867 /* UIScrollView+WHMessages.m */; };
 		33FFB88B18C0F81000BF818C /* WHDemoBubbleMessageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 33FFB88818C0F81000BF818C /* WHDemoBubbleMessageCell.m */; };
 		33FFB88C18C0F81000BF818C /* WHDemoBubbleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 33FFB88A18C0F81000BF818C /* WHDemoBubbleView.m */; };
 		33FFB89218C0F85300BF818C /* WHDemoAvatarImageFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 33FFB88F18C0F85300BF818C /* WHDemoAvatarImageFactory.m */; };
@@ -71,8 +72,8 @@
 		88A3FB6E182E079E00705327 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 88A3FB4D182E079E00705327 /* UIKit.framework */; };
 		88A3FB76182E079E00705327 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 88A3FB74182E079E00705327 /* InfoPlist.strings */; };
 		88A3FB78182E079E00705327 /* WHMessagesDemoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 88A3FB77182E079E00705327 /* WHMessagesDemoTests.m */; };
-		88A3FC59182E0EA000705327 /* NSString+WHMessagesView.m in Sources */ = {isa = PBXBuildFile; fileRef = 88A3FC1D182E0EA000705327 /* NSString+WHMessagesView.m */; };
-		88A3FC5A182E0EA000705327 /* NSString+WHMessagesView.m in Sources */ = {isa = PBXBuildFile; fileRef = 88A3FC1D182E0EA000705327 /* NSString+WHMessagesView.m */; };
+		88A3FC59182E0EA000705327 /* NSString+WHMessages.m in Sources */ = {isa = PBXBuildFile; fileRef = 88A3FC1D182E0EA000705327 /* NSString+WHMessages.m */; };
+		88A3FC5A182E0EA000705327 /* NSString+WHMessages.m in Sources */ = {isa = PBXBuildFile; fileRef = 88A3FC1D182E0EA000705327 /* NSString+WHMessages.m */; };
 		88A3FC6B182E0EA000705327 /* WHDismissiveTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 88A3FC30182E0EA000705327 /* WHDismissiveTextView.m */; };
 		88A3FC6C182E0EA000705327 /* WHDismissiveTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 88A3FC30182E0EA000705327 /* WHDismissiveTextView.m */; };
 		88A3FC6D182E0EA000705327 /* WHMessageInputView.m in Sources */ = {isa = PBXBuildFile; fileRef = 88A3FC32182E0EA000705327 /* WHMessageInputView.m */; };
@@ -81,6 +82,7 @@
 		88A3FC72182E0EA000705327 /* WHMessagesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 88A3FC36182E0EA000705327 /* WHMessagesViewController.m */; };
 		88A3FC73182E0EA000705327 /* WHMessageTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 88A3FC38182E0EA000705327 /* WHMessageTextView.m */; };
 		88A3FC74182E0EA000705327 /* WHMessageTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 88A3FC38182E0EA000705327 /* WHMessageTextView.m */; };
+		96EA7A7AF6C9457AA89E7D4D /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6AFF9601294443728D9481E0 /* libPods.a */; };
 		FF5F1C19A2B14956BCA42EBB /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6AFF9601294443728D9481E0 /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -95,11 +97,15 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		005D6680A6C747D29AA229EB /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 		331BFAE418C0FDDC00D902B3 /* WHSimpleMessageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WHSimpleMessageCell.h; sourceTree = "<group>"; };
 		331BFAE518C0FDDC00D902B3 /* WHSimpleMessageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WHSimpleMessageCell.m; sourceTree = "<group>"; };
 		331BFAE718C0FDEA00D902B3 /* WHSimpleMessageCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WHSimpleMessageCell.xib; sourceTree = "<group>"; };
 		339917D818C0F1E4001B4E68 /* WHDemoMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WHDemoMessage.h; sourceTree = "<group>"; };
 		339917D918C0F1E4001B4E68 /* WHDemoMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WHDemoMessage.m; sourceTree = "<group>"; };
+		339A44DF18C9CDCE00A7E867 /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; };
+		339A44E218C9D68E00A7E867 /* UIScrollView+WHMessages.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+WHMessages.h"; sourceTree = "<group>"; };
+		339A44E318C9D68E00A7E867 /* UIScrollView+WHMessages.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+WHMessages.m"; sourceTree = "<group>"; };
 		33FFB88718C0F81000BF818C /* WHDemoBubbleMessageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WHDemoBubbleMessageCell.h; sourceTree = "<group>"; };
 		33FFB88818C0F81000BF818C /* WHDemoBubbleMessageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WHDemoBubbleMessageCell.m; sourceTree = "<group>"; };
 		33FFB88918C0F81000BF818C /* WHDemoBubbleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WHDemoBubbleView.h; sourceTree = "<group>"; };
@@ -177,8 +183,8 @@
 		88A3FC13182E0B8C00705327 /* MessagesCollectionViewController.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = MessagesCollectionViewController.podspec; sourceTree = "<group>"; };
 		88A3FC14182E0B8C00705327 /* LICENSE.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
 		88A3FC15182E0B8C00705327 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = text; lineEnding = 0; path = README.md; sourceTree = "<group>"; };
-		88A3FC1C182E0EA000705327 /* NSString+WHMessagesView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+WHMessagesView.h"; sourceTree = "<group>"; };
-		88A3FC1D182E0EA000705327 /* NSString+WHMessagesView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+WHMessagesView.m"; sourceTree = "<group>"; };
+		88A3FC1C182E0EA000705327 /* NSString+WHMessages.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+WHMessages.h"; sourceTree = "<group>"; };
+		88A3FC1D182E0EA000705327 /* NSString+WHMessages.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+WHMessages.m"; sourceTree = "<group>"; };
 		88A3FC2F182E0EA000705327 /* WHDismissiveTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WHDismissiveTextView.h; sourceTree = "<group>"; };
 		88A3FC30182E0EA000705327 /* WHDismissiveTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = WHDismissiveTextView.m; sourceTree = "<group>"; };
 		88A3FC31182E0EA000705327 /* WHMessageInputView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WHMessageInputView.h; sourceTree = "<group>"; };
@@ -186,7 +192,7 @@
 		88A3FC35182E0EA000705327 /* WHMessagesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WHMessagesViewController.h; sourceTree = "<group>"; };
 		88A3FC36182E0EA000705327 /* WHMessagesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = WHMessagesViewController.m; sourceTree = "<group>"; };
 		88A3FC37182E0EA000705327 /* WHMessageTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WHMessageTextView.h; sourceTree = "<group>"; };
-		88A3FC38182E0EA000705327 /* WHMessageTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = WHMessageTextView.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		88A3FC38182E0EA000705327 /* WHMessageTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = WHMessageTextView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -196,6 +202,7 @@
 			files = (
 				88A3FB4E182E079E00705327 /* UIKit.framework in Frameworks */,
 				88A3FB4A182E079E00705327 /* Foundation.framework in Frameworks */,
+				96EA7A7AF6C9457AA89E7D4D /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -214,6 +221,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		339A44E118C9CDD900A7E867 /* Pod */ = {
+			isa = PBXGroup;
+			children = (
+				88A3FC13182E0B8C00705327 /* MessagesCollectionViewController.podspec */,
+				339A44DF18C9CDCE00A7E867 /* Podfile */,
+				88A3FC14182E0B8C00705327 /* LICENSE.txt */,
+				88A3FC15182E0B8C00705327 /* README.md */,
+			);
+			name = Pod;
+			sourceTree = "<group>";
+		};
 		33FFB88618C0F7FC00BF818C /* Input */ = {
 			isa = PBXGroup;
 			children = (
@@ -357,14 +375,13 @@
 		88A3FB3D182E079D00705327 = {
 			isa = PBXGroup;
 			children = (
+				339A44E118C9CDD900A7E867 /* Pod */,
 				88A3FC19182E0EA000705327 /* WHMessagesViewController */,
-				88A3FC13182E0B8C00705327 /* MessagesCollectionViewController.podspec */,
-				88A3FC14182E0B8C00705327 /* LICENSE.txt */,
-				88A3FC15182E0B8C00705327 /* README.md */,
 				88A3FB4F182E079E00705327 /* WHMessagesDemo */,
 				88A3FB71182E079E00705327 /* WHMessagesDemoTests */,
 				88A3FB48182E079E00705327 /* Frameworks */,
 				88A3FB47182E079E00705327 /* Products */,
+				005D6680A6C747D29AA229EB /* Pods.xcconfig */,
 			);
 			sourceTree = "<group>";
 		};
@@ -466,8 +483,10 @@
 		88A3FC1B182E0EA000705327 /* Categories */ = {
 			isa = PBXGroup;
 			children = (
-				88A3FC1C182E0EA000705327 /* NSString+WHMessagesView.h */,
-				88A3FC1D182E0EA000705327 /* NSString+WHMessagesView.m */,
+				88A3FC1C182E0EA000705327 /* NSString+WHMessages.h */,
+				88A3FC1D182E0EA000705327 /* NSString+WHMessages.m */,
+				339A44E218C9D68E00A7E867 /* UIScrollView+WHMessages.h */,
+				339A44E318C9D68E00A7E867 /* UIScrollView+WHMessages.m */,
 			);
 			path = Categories;
 			sourceTree = "<group>";
@@ -479,9 +498,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 88A3FB7B182E079E00705327 /* Build configuration list for PBXNativeTarget "WHMessagesDemo" */;
 			buildPhases = (
+				6D0EB8E0145D40188AAE7135 /* Check Pods Manifest.lock */,
 				88A3FB42182E079E00705327 /* Sources */,
 				88A3FB43182E079E00705327 /* Frameworks */,
 				88A3FB44182E079E00705327 /* Resources */,
+				3FAF521A819946CD9362260C /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -610,6 +631,36 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		3FAF521A819946CD9362260C /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		6D0EB8E0145D40188AAE7135 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
 		B6BEEE0608204470B44ABB11 /* Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -650,6 +701,7 @@
 				88A3FC6B182E0EA000705327 /* WHDismissiveTextView.m in Sources */,
 				339917DA18C0F1E4001B4E68 /* WHDemoMessage.m in Sources */,
 				33FFB89318C0F85300BF818C /* WHDemoBubbleImageViewFactory.m in Sources */,
+				339A44E418C9D68E00A7E867 /* UIScrollView+WHMessages.m in Sources */,
 				88A3FB56182E079E00705327 /* main.m in Sources */,
 				33FFB89218C0F85300BF818C /* WHDemoAvatarImageFactory.m in Sources */,
 				88A3FB63182E079E00705327 /* WHDemoViewController.m in Sources */,
@@ -660,7 +712,7 @@
 				88A3FB5A182E079E00705327 /* WHAppDelegate.m in Sources */,
 				33FFB88B18C0F81000BF818C /* WHDemoBubbleMessageCell.m in Sources */,
 				33FFB89918C0F8A300BF818C /* UIColor+WHMessagesView.m in Sources */,
-				88A3FC59182E0EA000705327 /* NSString+WHMessagesView.m in Sources */,
+				88A3FC59182E0EA000705327 /* NSString+WHMessages.m in Sources */,
 				331BFAE618C0FDDC00D902B3 /* WHSimpleMessageCell.m in Sources */,
 				33FFB88C18C0F81000BF818C /* WHDemoBubbleView.m in Sources */,
 			);
@@ -671,7 +723,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				88A3FB78182E079E00705327 /* WHMessagesDemoTests.m in Sources */,
-				88A3FC5A182E0EA000705327 /* NSString+WHMessagesView.m in Sources */,
+				88A3FC5A182E0EA000705327 /* NSString+WHMessages.m in Sources */,
 				88A3FC74182E0EA000705327 /* WHMessageTextView.m in Sources */,
 				88A3FC6C182E0EA000705327 /* WHDismissiveTextView.m in Sources */,
 				88A3FC72182E0EA000705327 /* WHMessagesViewController.m in Sources */,
@@ -783,13 +835,14 @@
 		};
 		88A3FB7C182E079E00705327 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 005D6680A6C747D29AA229EB /* Pods.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "WHMessagesDemo/WHMessagesDemo-Prefix.pch";
 				INFOPLIST_FILE = "WHMessagesDemo/WHMessagesDemo-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -797,13 +850,14 @@
 		};
 		88A3FB7D182E079E00705327 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 005D6680A6C747D29AA229EB /* Pods.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "WHMessagesDemo/WHMessagesDemo-Prefix.pch";
 				INFOPLIST_FILE = "WHMessagesDemo/WHMessagesDemo-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};

@@ -14,7 +14,7 @@
 
 #import "WHMessagesViewController.h"
 
-#import "NSString+WHMessagesView.h"
+#import "NSString+WHMessages.h"
 #import "UIScrollView+Utils.h"
 
 
@@ -25,6 +25,7 @@
 @property(assign, nonatomic) BOOL allowsPan;
 @property(nonatomic, readwrite) WHMessageInputViewStyle inputViewStyle;
 @property(weak, nonatomic, readwrite) WHMessageInputView *messageInputView;
+@property (nonatomic, strong) FBKVOController *kvoController;
 
 @end
 
@@ -56,6 +57,9 @@
 - (void)setup {
     self.allowsPan = YES;
     self.inputViewStyle = WHMessageInputViewStyleFlat;
+    
+    // create KVO controller with observer
+    self.kvoController = [FBKVOController controllerWithObserver:self];
 }
 
 
@@ -71,7 +75,7 @@
     
     CGFloat inputViewHeight = (self.isInputViewFlat) ? 45.0f : 40.0f;
     UIPanGestureRecognizer *pan = self.allowsPan ? self.collectionView.panGestureRecognizer : nil;
-
+    
     CGRect inputFrame = CGRectMake(0.0f,
                                    self.view.frame.size.height - inputViewHeight,
                                    self.view.frame.size.width,
@@ -160,10 +164,18 @@
                                                object:nil];
     
     
-    [self.messageInputView.textView addObserver:self
-                                     forKeyPath:NSStringFromSelector(@selector(contentSize))
-                                        options:NSKeyValueObservingOptionNew
-                                        context:nil];
+    //    [self.messageInputView.textView addObserver:self
+    //                                     forKeyPath:NSStringFromSelector(@selector(contentSize))
+    //                                        options:NSKeyValueObservingOptionNew
+    //                                        context:nil];
+    
+    [self.kvoController observe:self.messageInputView.textView
+                        keyPath:NSStringFromSelector(@selector(contentSize))
+                        options:NSKeyValueObservingOptionNew
+                          block:^(WHMessagesViewController *observer, WHMessageTextView *object, NSDictionary *change) {
+                              [observer layoutAndAnimateMessageInputTextView:object];
+                          }];
+    
     
     [self scrollToLastCellAnimated:NO];
 }
@@ -172,7 +184,7 @@
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
-//    [self scrollToLastCellAnimated:animated];
+    //    [self scrollToLastCellAnimated:animated];
     [self.collectionView scrollToBottomAnimated:animated];
 }
 
@@ -181,7 +193,7 @@
     [super viewWillDisappear:animated];
     
     [self dismissKeyboard];
-    [self safelyRemoveObservers];
+    [self unsubscribeToNotifications];
 }
 
 
@@ -282,12 +294,6 @@
 }
 
 
-- (void)scrollToBottomAnimated:(BOOL)animated {
-    CGPoint bottomOffset = CGPointMake(0, self.collectionView.contentSize.height - self.collectionView.frame.size.height);
-    [self.collectionView setContentOffset:bottomOffset animated:animated];
-}
-
-
 - (void)scrollToRowAtIndexPath:(NSIndexPath *)indexPath
               atScrollPosition:(UICollectionViewScrollPosition)position
                       animated:(BOOL)animated {
@@ -363,7 +369,7 @@
                          animations:^{
                              [self setInsetsWithBottomValue:self.collectionView.contentInset.bottom + changeInHeight];
                              
-//                             [self scrollToBottomAnimated:NO];
+                             //                             [self.collectionView scrollToBottomAnimated:NO];
                              
                              if (isShrinking) {
                                  // if shrinking the view, animate text view frame BEFORE input view frame
@@ -437,17 +443,6 @@
         insets.bottom = self.bottomLayoutGuide.length;
     
     return insets;
-}
-
-
-#pragma mark - Key-value observing
-- (void)observeValueForKeyPath:(NSString *)keyPath
-                      ofObject:(id)object
-                        change:(NSDictionary *)change
-                       context:(void *)context {
-    if (object == self.messageInputView.textView && [keyPath isEqualToString:NSStringFromSelector(@selector(contentSize))]) {
-        [self layoutAndAnimateMessageInputTextView:object];
-    }
 }
 
 
@@ -534,30 +529,21 @@
     }
 }
 
-- (void)safelyRemoveObservers {
-    @try {
-        [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
-        [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
-        [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillEnterForegroundNotification object:nil];
-        [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardDidHideNotification object:nil];
-        
-        [self.messageInputView.textView removeObserver:self forKeyPath:NSStringFromSelector(@selector(contentSize))];
-    }
-    @catch (NSException *exception) {
-        NSLog(@"%@", exception);
-    }
-    @finally {
-        NSLog(@"@finally");
-    }
+- (void)unsubscribeToNotifications {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillEnterForegroundNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardDidHideNotification object:nil];
 }
 
 
 #pragma mark - Memory
 - (void)dealloc {
-    [self safelyRemoveObservers];
+    [self unsubscribeToNotifications];
     _messageDelegate = nil;
     _messageDataSource = nil;
     _messageInputView = nil;
 }
+
 
 @end

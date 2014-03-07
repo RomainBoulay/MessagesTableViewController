@@ -12,10 +12,10 @@
 //  http://opensource.org/licenses/MIT
 //
 
-#import "NSString+WHMessagesView.h"
+#import "NSString+WHMessages.h"
 
 
-@implementation NSString (WHMessagesView)
+@implementation NSString (WHMessages)
 
 - (NSString *)stringByTrimingWhitespace {
     return [self stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
