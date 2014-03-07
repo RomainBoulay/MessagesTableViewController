@@ -14,8 +14,10 @@
 
 #import "WHMessagesViewController.h"
 
+#import <KVOController/FBKVOController.h>
+
 #import "NSString+WHMessages.h"
-#import "UIScrollView+Utils.h"
+#import "UIScrollView+WHMessages.h"
 
 
 @interface WHMessagesViewController () <WHDismissiveTextViewDelegate>
