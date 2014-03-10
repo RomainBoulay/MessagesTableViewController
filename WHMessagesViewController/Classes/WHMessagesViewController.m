@@ -143,7 +143,7 @@
                                                  name:UIApplicationWillEnterForegroundNotification
                                                object:nil];
     
-    [self.collectionView reloadData];
+//    [self.collectionView reloadData];
 }
 
 
@@ -165,12 +165,6 @@
                                                  name:UIKeyboardDidHideNotification
                                                object:nil];
     
-    
-    //    [self.messageInputView.textView addObserver:self
-    //                                     forKeyPath:NSStringFromSelector(@selector(contentSize))
-    //                                        options:NSKeyValueObservingOptionNew
-    //                                        context:nil];
-    
     [self.kvoController observe:self.messageInputView.textView
                         keyPath:NSStringFromSelector(@selector(contentSize))
                         options:NSKeyValueObservingOptionNew
@@ -179,15 +173,15 @@
                           }];
     
     
-    [self scrollToLastCellAnimated:NO];
+//    [self scrollToLastCellAnimated:NO];
 }
 
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
-    //    [self scrollToLastCellAnimated:animated];
-    [self.collectionView scrollToBottomAnimated:animated];
+//    [self scrollToLastCellAnimated:animated];
+//    [self.collectionView scrollToBottomAnimated:animated];
 }
 
 
@@ -241,7 +235,6 @@
 
 - (void)dismissKeyboard {
     [self.messageInputView.textView resignFirstResponder];
-    
 }
 
 
@@ -530,6 +523,7 @@
             return kNilOptions;
     }
 }
+
 
 - (void)unsubscribeToNotifications {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
