@@ -283,7 +283,7 @@
     NSInteger row = [self.collectionView numberOfItemsInSection:section]-1;
     if (row >= 0 && section >= 0) {
         [self.collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:row inSection:section]
-                                    atScrollPosition:UICollectionViewScrollPositionBottom
+                                    atScrollPosition:UICollectionViewScrollPositionTop
                                             animated:animated];
     }
 }
@@ -455,14 +455,12 @@
 
 - (void)handleDidHideKeyboardNotification:(NSNotification *)notification {
     self.editing = NO;
+    [self keyboardWillShowHide:notification];
 }
 
 
 - (void)keyboardWillShowHide:(NSNotification *)notification {
     CGRect keyboardRect = [(notification.userInfo)[UIKeyboardFrameEndUserInfoKey] CGRectValue];
-    UIViewAnimationCurve curve = [(notification.userInfo)[UIKeyboardAnimationCurveUserInfoKey] integerValue];
-    double duration = [(notification.userInfo)[UIKeyboardAnimationDurationUserInfoKey] doubleValue];
-    
     CGFloat keyboardY = [self.view convertRect:keyboardRect fromView:nil].origin.y;
     
     CGRect inputViewFrame = self.messageInputView.frame;
@@ -473,18 +471,20 @@
     if (inputViewFrameY > messageViewFrameBottom)
         inputViewFrameY = messageViewFrameBottom;
     
-    [UIView animateWithDuration:duration
-                          delay:0.0
-                        options:[self animationOptionsForCurve:curve]
-                     animations:^{
-                         self.messageInputView.frame = CGRectMake(inputViewFrame.origin.x,
-                                                                  inputViewFrameY,
-                                                                  inputViewFrame.size.width,
-                                                                  inputViewFrame.size.height);
-                         
-                         [self setInsetsWithBottomValue:self.view.frame.size.height - self.messageInputView.frame.origin.y];
-                     }
-                     completion:nil];
+    [UIView beginAnimations:nil context:NULL];
+    [UIView setAnimationDuration:[notification.userInfo[UIKeyboardAnimationDurationUserInfoKey] doubleValue]];
+    [UIView setAnimationCurve:[notification.userInfo[UIKeyboardAnimationCurveUserInfoKey] integerValue]];
+    [UIView setAnimationBeginsFromCurrentState:YES];
+    
+    // work
+    self.messageInputView.frame = CGRectMake(inputViewFrame.origin.x,
+                                             inputViewFrameY,
+                                             inputViewFrame.size.width,
+                                             inputViewFrame.size.height);
+    
+    [self setInsetsWithBottomValue:self.view.frame.size.height - self.messageInputView.frame.origin.y];
+    
+    [UIView commitAnimations];
 }
 
 
@@ -504,27 +504,7 @@
 }
 
 
-#pragma mark - Utilities
-- (UIViewAnimationOptions)animationOptionsForCurve:(UIViewAnimationCurve)curve {
-    switch (curve) {
-        case UIViewAnimationCurveEaseInOut:
-            return UIViewAnimationOptionCurveEaseInOut;
-            
-        case UIViewAnimationCurveEaseIn:
-            return UIViewAnimationOptionCurveEaseIn;
-            
-        case UIViewAnimationCurveEaseOut:
-            return UIViewAnimationOptionCurveEaseOut;
-            
-        case UIViewAnimationCurveLinear:
-            return UIViewAnimationOptionCurveLinear;
-            
-        default:
-            return kNilOptions;
-    }
-}
-
-
+#pragma mark - Notifications
 - (void)unsubscribeToNotifications {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
