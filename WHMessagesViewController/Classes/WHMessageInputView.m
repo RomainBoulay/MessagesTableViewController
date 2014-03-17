@@ -103,6 +103,7 @@
         [sendButton setTitleColor:[UIColor colorWithWhite:1.0f alpha:0.5f] forState:UIControlStateDisabled];
 
         sendButton.titleLabel.font = [UIFont boldSystemFontOfSize:16.0f];
+        [self setSendButton:sendButton];
     }
     else if (style == WHMessageInputViewStyleFlat) {
         sendButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -113,10 +114,10 @@
         [sendButton setTitleColor:[self.class bubbleLightGrayColor] forState:UIControlStateDisabled];
 
         sendButton.titleLabel.font = [UIFont boldSystemFontOfSize:18.0f];
+        [self setSendButton:sendButton];
     }
 
     sendButton.autoresizingMask = (UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleLeftMargin);
-    [self setSendButton:sendButton];
 }
 
 
@@ -154,13 +155,15 @@
 
 #pragma mark - Setters
 - (void)setSendButton:(UIButton *)btn {
-    [_sendButton removeFromSuperview];
-
     if (self.style == WHMessageInputViewStyleClassic) {
+        [_sendButton removeFromSuperview];
+
         btn.frame = CGRectMake(self.frame.size.width - 65.0f, 8.0f, 59.0f, 26.0f);
         [self addSubview:btn];
     }
     else if (self.style == WHMessageInputViewStyleFlat) {
+        [_sendButton removeFromSuperview];
+
         CGFloat padding = 8.0f;
         btn.frame = CGRectMake(self.textView.frame.origin.x + self.textView.frame.size.width,
                 padding,

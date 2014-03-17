@@ -56,7 +56,7 @@ typedef NS_ENUM(NSUInteger, WHMessageInputViewStyle) {
  *  The send button for the input view. The default value is an initialized `UIButton` whose appearance is styled according to the value of style during initialization. 
  *  @see WHMessageInputViewStyle.
  */
-@property(weak, nonatomic) UIButton *sendButton;
+@property(strong, nonatomic) UIButton *sendButton;
 
 
 #pragma mark - Initialization

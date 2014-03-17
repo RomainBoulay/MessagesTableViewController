@@ -90,13 +90,15 @@
     
     if ([self.messageDelegate respondsToSelector:@selector(sendButtonForInputView)]) {
         UIButton *sendButton = [self.messageDelegate sendButtonForInputView];
-        [inputView setSendButton:sendButton];
+        inputView.sendButton = sendButton;
+        
+        sendButton.enabled = NO;
+        [sendButton addTarget:self
+                       action:@selector(sendPressed:)
+             forControlEvents:UIControlEventTouchUpInside];
     }
     
-    inputView.sendButton.enabled = NO;
-    [inputView.sendButton addTarget:self
-                             action:@selector(sendPressed:)
-                   forControlEvents:UIControlEventTouchUpInside];
+    
     
     [self.view addSubview:inputView];
     self.messageInputView = inputView;
@@ -266,8 +268,9 @@
 
 #pragma mark - Messages view controller
 - (void)finishSend {
-    [self.messageInputView.textView setText:nil];
-    [self textViewDidChange:self.messageInputView.textView];
+    self.messageInputView.textView.text = nil;
+    self.messageInputView.sendButton.enabled = NO;
+    
     [self.collectionView reloadData];
     [self scrollToLastCellAnimated:YES];
     
