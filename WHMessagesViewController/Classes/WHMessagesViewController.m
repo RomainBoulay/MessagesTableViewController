@@ -175,15 +175,7 @@
                           }];
     
     
-//    [self scrollToLastCellAnimated:NO];
-}
-
-
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-    
-//    [self scrollToLastCellAnimated:animated];
-//    [self.collectionView scrollToBottomAnimated:animated];
+    [self scrollToLastCellAnimated:NO];
 }
 
 
