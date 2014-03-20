@@ -28,6 +28,7 @@
 @property(nonatomic, readwrite) WHMessageInputViewStyle inputViewStyle;
 @property(weak, nonatomic, readwrite) WHMessageInputView *messageInputView;
 @property (nonatomic, strong) FBKVOController *kvoController;
+@property (nonatomic) BOOL isFirstTimeViewDidLayoutSubviews;
 
 @end
 
@@ -144,7 +145,8 @@
                                              selector:@selector(refreshUIState)
                                                  name:UIApplicationWillEnterForegroundNotification
                                                object:nil];
-    
+    self.isFirstTimeViewDidLayoutSubviews = YES;
+
 //    [self.collectionView reloadData];
 }
 
@@ -173,9 +175,16 @@
                           block:^(WHMessagesViewController *observer, WHMessageTextView *object, NSDictionary *change) {
                               [observer layoutAndAnimateMessageInputTextView:object];
                           }];
-    
-    
-    [self scrollToLastCellAnimated:NO];
+}
+
+
+- (void)viewDidLayoutSubviews {
+    // only after layoutSubviews executes for subviews, do constraints and frames agree (WWDC 2012 video "Best Practices for Mastering Auto Layout")
+    if (self.isFirstTimeViewDidLayoutSubviews) {
+        // good place to set scroll view's content offset, if its subviews are added dynamically (in code)
+        [self scrollToLastCellAnimated:YES];
+        self.isFirstTimeViewDidLayoutSubviews = NO;
+    }
 }
 
 
