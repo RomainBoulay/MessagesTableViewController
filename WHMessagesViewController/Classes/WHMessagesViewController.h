@@ -46,6 +46,15 @@
 
 
 /**
+ *  Asks the delegate for a custom supplementary view reuse identifier for the specified index path.
+ *
+ *  @param indexPath The index path of the row to be displayed.
+ *
+ *  @return A string specifying the cell reuse identifier for the row at indexPath.
+ */
+
+
+/**
  *  Asks the data source for the number of sections in the collection view.
  *
  *  @return The number of sections in collectionView.
@@ -66,6 +75,17 @@
 @optional
 
 /**
+ *  Asks the delegate for a custom supplementary view reuse identifier for the specified index path.
+ *
+ *  @param kind      The supplementary view kind.
+ *  @param indexPath The index path of the row to be displayed.
+ *
+ *  @return A string specifying the supplementary view reuse identifier.
+ */
+- (NSString *)customSupplementaryViewOfKind:(NSString *)kind forRowAtIndexPath:(NSIndexPath *)indexPath;
+
+
+/**
  *  Asks the delegate for the input view style.
  *
  *  @return A constant describing the input view style.
@@ -81,6 +101,16 @@
  *  @param indexPath The index path for cell.
  */
 - (void)configureCell:(UICollectionViewCell *)cell atIndexPath:(NSIndexPath *)indexPath;
+
+
+/**
+ *  Asks the delegate to configure or further customize the given supplementary view for the specified kind and at the specified index path.
+ *
+ *  @param supplementaryView    The supplementary view
+ *  @param kind                 The supplementary view kind.
+ *  @param indexPath            The index path of the row to be displayed.
+ */
+- (void)configureSupplementaryView:(UICollectionReusableView *)supplementaryView ofKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath;
 
 
 /**

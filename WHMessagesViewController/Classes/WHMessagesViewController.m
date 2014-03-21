@@ -267,6 +267,23 @@
 }
 
 
+// The view that is returned must be retrieved from a call to -dequeueReusableSupplementaryViewOfKind:withReuseIdentifier:forIndexPath:
+- (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
+    // Dequeue or init supplementaryView
+    NSString *supplementaryViewIdentifier = [self.messageDelegate customSupplementaryViewOfKind:kind forRowAtIndexPath:indexPath];
+    UICollectionViewCell *supplementaryView = [collectionView dequeueReusableSupplementaryViewOfKind:kind
+                                                                                 withReuseIdentifier:supplementaryViewIdentifier
+                                                                                        forIndexPath:indexPath];
+    
+    // Configure section
+    if ([self.messageDelegate respondsToSelector:@selector(configureSupplementaryView:ofKind:atIndexPath:)]) {
+        [self.messageDelegate configureSupplementaryView:supplementaryView ofKind:kind atIndexPath:indexPath];
+    }
+    
+    return supplementaryView;
+}
+
+
 #pragma mark - Messages view controller
 - (void)finishSend {
     self.messageInputView.textView.text = nil;
