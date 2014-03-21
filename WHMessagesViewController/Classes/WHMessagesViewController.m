@@ -146,8 +146,8 @@
                                                  name:UIApplicationWillEnterForegroundNotification
                                                object:nil];
     self.isFirstTimeViewDidLayoutSubviews = YES;
-
-//    [self.collectionView reloadData];
+    
+    //    [self.collectionView reloadData];
 }
 
 
