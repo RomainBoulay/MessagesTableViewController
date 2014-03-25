@@ -131,11 +131,6 @@
 @interface WHMessagesViewController : UICollectionViewController <UICollectionViewDataSource, UICollectionViewDelegate, UITextViewDelegate>
 
 
-@property(strong, nonatomic) NSNumber *topLayoutGuideLength;
-@property(strong, nonatomic) NSNumber *bottomLayoutGuideLength;
-- (void)updateCollectionViewInsets;
-
-
 /**
  *  The object that acts as the delegate of the receiving messages view.
  */
@@ -200,5 +195,14 @@
 - (void)scrollToRowAtIndexPath:(NSIndexPath *)indexPath
               atScrollPosition:(UICollectionViewScrollPosition)position
                       animated:(BOOL)animated;
+
+
+/**
+ *  Modify collection view's content and scroll indicator insets
+ *
+ *  @param insets The new insets
+ */
+- (void)setInsets:(UIEdgeInsets)insets;
+
 
 @end

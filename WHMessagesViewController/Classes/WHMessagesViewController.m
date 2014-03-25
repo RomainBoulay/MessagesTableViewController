@@ -416,32 +416,9 @@
 }
 
 
-- (void)updateCollectionViewInsets {
-    UIEdgeInsets insets = [self collectionViewInsets];
-    [self setInsets:insets];
-}
-
-
 - (void)setInsets:(UIEdgeInsets)insets {
     self.collectionView.contentInset = insets;
     self.collectionView.scrollIndicatorInsets = insets;
-}
-
-
-- (UIEdgeInsets)collectionViewInsets {
-    UIEdgeInsets insets = self.collectionView.contentInset;
-    
-    if (self.topLayoutGuideLength)
-        insets.top = self.topLayoutGuideLength.floatValue;
-    else if ([self respondsToSelector:@selector(topLayoutGuide)])
-        insets.top = self.topLayoutGuide.length;
-    
-    if (self.bottomLayoutGuideLength)
-        insets.bottom = self.bottomLayoutGuideLength.floatValue;
-    else if ([self respondsToSelector:@selector(bottomLayoutGuide)])
-        insets.bottom = self.bottomLayoutGuide.length;
-    
-    return insets;
 }
 
 
