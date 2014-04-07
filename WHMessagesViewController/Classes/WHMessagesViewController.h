@@ -131,6 +131,9 @@
 @interface WHMessagesViewController : UICollectionViewController <UICollectionViewDataSource, UICollectionViewDelegate, UITextViewDelegate>
 
 
+@property (assign, nonatomic) BOOL automaticallyScrollsToMostRecentMessage;
+
+
 /**
  *  The object that acts as the delegate of the receiving messages view.
  */

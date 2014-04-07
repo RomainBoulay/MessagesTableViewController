@@ -47,8 +47,7 @@
 }
 
 
-- (id)initWithCollectionViewLayout:(UICollectionViewLayout *)layout
-{
+- (id)initWithCollectionViewLayout:(UICollectionViewLayout *)layout {
     self = [super initWithCollectionViewLayout:layout];
     if (self) {
         [self setup];
@@ -58,6 +57,7 @@
 
 
 - (void)setup {
+    self.automaticallyScrollsToMostRecentMessage = YES;
     self.allowsPan = YES;
     self.inputViewStyle = WHMessageInputViewStyleFlat;
     
@@ -148,12 +148,16 @@
     self.isFirstTimeViewDidLayoutSubviews = YES;
     
     //    [self.collectionView reloadData];
+    [self.kvoController observe:self.messageInputView.textView
+                        keyPath:NSStringFromSelector(@selector(contentSize))
+                        options:NSKeyValueObservingOptionNew
+                          block:^(WHMessagesViewController *observer, WHMessageTextView *object, NSDictionary *change) {
+                              [observer layoutAndAnimateMessageInputTextView:object];
+                          }];
 }
 
 
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    
+- (void)observeForKeyboardNotifications {
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(handleWillShowKeyboardNotification:)
                                                  name:UIKeyboardWillShowNotification
@@ -168,15 +172,34 @@
                                              selector:@selector(handleDidHideKeyboardNotification:)
                                                  name:UIKeyboardDidHideNotification
                                                object:nil];
-    
-    [self.kvoController observe:self.messageInputView.textView
-                        keyPath:NSStringFromSelector(@selector(contentSize))
-                        options:NSKeyValueObservingOptionNew
-                          block:^(WHMessagesViewController *observer, WHMessageTextView *object, NSDictionary *change) {
-                              [observer layoutAndAnimateMessageInputTextView:object];
-                          }];
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    [self observeForKeyboardNotifications];
+    [self.view layoutIfNeeded];
+    [self.collectionView.collectionViewLayout invalidateLayout];
+    
+    if (self.automaticallyScrollsToMostRecentMessage) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self scrollToLastCellAnimated:NO];
+            [self.collectionView.collectionViewLayout invalidateLayout];
+        });
+    }
+    
+//    [self jsq_updateKeyboardTriggerPoint];
+}
+
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+
+    [self observeForKeyboardNotifications];
+    
+    JSQMessagesCollectionViewFlowLayout *collectionViewFlowLayout = (JSQMessagesCollectionViewFlowLayout*)self.collectionView.collectionViewLayout;
+    collectionViewFlowLayout.springinessEnabled = YES;
+}
 
 - (void)viewDidLayoutSubviews {
     // only after layoutSubviews executes for subviews, do constraints and frames agree (WWDC 2012 video "Best Practices for Mastering Auto Layout")
@@ -273,7 +296,10 @@
     self.messageInputView.sendButton.enabled = NO;
     
     [self.collectionView reloadData];
-    [self scrollToLastCellAnimated:YES];
+    
+    if (self.automaticallyScrollsToMostRecentMessage) {
+        [self scrollToLastCellAnimated:YES];
+    }
     
     [self performSelector:@selector(dismissKeyboard) withObject:nil afterDelay:0.25];
 }
@@ -335,7 +361,9 @@
     if (!self.previousTextViewContentHeight)
         self.previousTextViewContentHeight = textView.contentSize.height;
     
-    [self scrollToLastCellAnimated:YES];
+    if (self.automaticallyScrollsToMostRecentMessage) {
+        [self scrollToLastCellAnimated:YES];
+    }
 }
 
 
@@ -367,7 +395,7 @@
         [UIView animateWithDuration:0.25f
                          animations:^{
                              [self setInsetsWithBottomValue:self.collectionView.contentInset.bottom + changeInHeight];
-                             
+
                              if (isShrinking) {
                                  // if shrinking the view, animate text view frame BEFORE input view frame
                                  [self.messageInputView adjustTextViewHeightBy:changeInHeight];
@@ -462,7 +490,6 @@
                                              inputViewFrame.size.height);
     
     [self setInsetsWithBottomValue:self.view.frame.size.height - self.messageInputView.frame.origin.y];
-    
     [UIView commitAnimations];
 }
 
