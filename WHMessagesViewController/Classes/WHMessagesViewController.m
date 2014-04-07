@@ -368,8 +368,6 @@
                          animations:^{
                              [self setInsetsWithBottomValue:self.collectionView.contentInset.bottom + changeInHeight];
                              
-                             //                             [self.collectionView scrollToBottomAnimated:NO];
-                             
                              if (isShrinking) {
                                  // if shrinking the view, animate text view frame BEFORE input view frame
                                  [self.messageInputView adjustTextViewHeightBy:changeInHeight];
