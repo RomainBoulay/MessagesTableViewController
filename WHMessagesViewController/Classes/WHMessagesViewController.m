@@ -18,6 +18,7 @@
 
 #import "NSString+WHMessages.h"
 #import "UIScrollView+WHMessages.h"
+#import "WHCollectionViewCancelableLayout.h"
 
 
 @interface WHMessagesViewController () <WHDismissiveTextViewDelegate>
@@ -37,21 +38,30 @@
 
 
 #pragma mark - Initialization
-- (id)init {
-    self = [super initWithCollectionViewLayout:[[UICollectionViewFlowLayout alloc] init]];
-    if (self) {
-        [self setup];
-    }
-    
-    return self;
-}
-
-
 - (id)initWithCollectionViewLayout:(UICollectionViewLayout *)layout {
     self = [super initWithCollectionViewLayout:layout];
     if (self) {
         [self setup];
     }
+    return self;
+}
+
+
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+        [self setup];
+    }
+    return self;
+}
+
+
+- (id)initWithCoder:(NSCoder *)aDecoder {
+    self = [super initWithCoder:aDecoder];
+    if (self) {
+        [self setup];
+    }
+    
     return self;
 }
 
@@ -98,8 +108,6 @@
                        action:@selector(sendPressed:)
              forControlEvents:UIControlEventTouchUpInside];
     }
-    
-    
     
     [self.view addSubview:inputView];
     self.messageInputView = inputView;
@@ -174,6 +182,7 @@
                                                object:nil];
 }
 
+
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
@@ -187,8 +196,6 @@
             [self.collectionView.collectionViewLayout invalidateLayout];
         });
     }
-    
-//    [self jsq_updateKeyboardTriggerPoint];
 }
 
 
@@ -197,8 +204,11 @@
 
     [self observeForKeyboardNotifications];
     
-    JSQMessagesCollectionViewFlowLayout *collectionViewFlowLayout = (JSQMessagesCollectionViewFlowLayout*)self.collectionView.collectionViewLayout;
-    collectionViewFlowLayout.springinessEnabled = YES;
+    // Turn on the final layout if
+    if ([self.collectionView.collectionViewLayout conformsToProtocol:@protocol(WHCollectionViewCancelableLayout)]) {
+        id<WHCollectionViewCancelableLayout> layout = (id<WHCollectionViewCancelableLayout>)self.collectionView.collectionViewLayout;
+        [layout setShouldUseFinalLayout:YES];
+    }
 }
 
 - (void)viewDidLayoutSubviews {
@@ -316,18 +326,6 @@
                                     atScrollPosition:UICollectionViewScrollPositionTop
                                             animated:animated];
     }
-}
-
-
-- (void)scrollToRowAtIndexPath:(NSIndexPath *)indexPath
-              atScrollPosition:(UICollectionViewScrollPosition)position
-                      animated:(BOOL)animated {
-    if (![self shouldAllowScroll])
-        return;
-    
-    [self.collectionView scrollToItemAtIndexPath:indexPath
-                                atScrollPosition:position
-                                        animated:animated];
 }
 
 

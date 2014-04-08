@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		331BFAE618C0FDDC00D902B3 /* WHSimpleMessageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 331BFAE518C0FDDC00D902B3 /* WHSimpleMessageCell.m */; };
 		331BFAE818C0FDEA00D902B3 /* WHSimpleMessageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 331BFAE718C0FDEA00D902B3 /* WHSimpleMessageCell.xib */; };
+		3370290318F3EC8B00D04704 /* WHCollectionViewFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 3370290018F3EC8B00D04704 /* WHCollectionViewFlowLayout.m */; };
+		3370290418F3EC8B00D04704 /* WHSpringFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 3370290218F3EC8B00D04704 /* WHSpringFlowLayout.m */; };
 		339917DA18C0F1E4001B4E68 /* WHDemoMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 339917D918C0F1E4001B4E68 /* WHDemoMessage.m */; };
 		339A44E418C9D68E00A7E867 /* UIScrollView+WHMessages.m in Sources */ = {isa = PBXBuildFile; fileRef = 339A44E318C9D68E00A7E867 /* UIScrollView+WHMessages.m */; };
 		33FFB88B18C0F81000BF818C /* WHDemoBubbleMessageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 33FFB88818C0F81000BF818C /* WHDemoBubbleMessageCell.m */; };
@@ -101,9 +103,14 @@
 		331BFAE418C0FDDC00D902B3 /* WHSimpleMessageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WHSimpleMessageCell.h; sourceTree = "<group>"; };
 		331BFAE518C0FDDC00D902B3 /* WHSimpleMessageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WHSimpleMessageCell.m; sourceTree = "<group>"; };
 		331BFAE718C0FDEA00D902B3 /* WHSimpleMessageCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WHSimpleMessageCell.xib; sourceTree = "<group>"; };
+		337028FC18F3E9BD00D04704 /* WHCollectionViewCancelableLayout.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = WHCollectionViewCancelableLayout.h; path = ../WHCollectionViewCancelableLayout.h; sourceTree = "<group>"; };
+		337028FF18F3EC8B00D04704 /* WHCollectionViewFlowLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WHCollectionViewFlowLayout.h; sourceTree = "<group>"; };
+		3370290018F3EC8B00D04704 /* WHCollectionViewFlowLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WHCollectionViewFlowLayout.m; sourceTree = "<group>"; };
+		3370290118F3EC8B00D04704 /* WHSpringFlowLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WHSpringFlowLayout.h; sourceTree = "<group>"; };
+		3370290218F3EC8B00D04704 /* WHSpringFlowLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WHSpringFlowLayout.m; sourceTree = "<group>"; };
 		339917D818C0F1E4001B4E68 /* WHDemoMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WHDemoMessage.h; sourceTree = "<group>"; };
 		339917D918C0F1E4001B4E68 /* WHDemoMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WHDemoMessage.m; sourceTree = "<group>"; };
-		339A44DF18C9CDCE00A7E867 /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; };
+		339A44DF18C9CDCE00A7E867 /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		339A44E218C9D68E00A7E867 /* UIScrollView+WHMessages.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+WHMessages.h"; sourceTree = "<group>"; };
 		339A44E318C9D68E00A7E867 /* UIScrollView+WHMessages.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+WHMessages.m"; sourceTree = "<group>"; };
 		33FFB88718C0F81000BF818C /* WHDemoBubbleMessageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WHDemoBubbleMessageCell.h; sourceTree = "<group>"; };
@@ -221,6 +228,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		337028FE18F3EC8B00D04704 /* Layout */ = {
+			isa = PBXGroup;
+			children = (
+				337028FC18F3E9BD00D04704 /* WHCollectionViewCancelableLayout.h */,
+				337028FF18F3EC8B00D04704 /* WHCollectionViewFlowLayout.h */,
+				3370290018F3EC8B00D04704 /* WHCollectionViewFlowLayout.m */,
+				3370290118F3EC8B00D04704 /* WHSpringFlowLayout.h */,
+				3370290218F3EC8B00D04704 /* WHSpringFlowLayout.m */,
+			);
+			path = Layout;
+			sourceTree = "<group>";
+		};
 		339A44E118C9CDD900A7E867 /* Pod */ = {
 			isa = PBXGroup;
 			children = (
@@ -472,6 +491,7 @@
 		88A3FC1A182E0EA000705327 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				337028FE18F3EC8B00D04704 /* Layout */,
 				88A3FC1B182E0EA000705327 /* Categories */,
 				33FFB88618C0F7FC00BF818C /* Input */,
 				88A3FC35182E0EA000705327 /* WHMessagesViewController.h */,
@@ -714,6 +734,8 @@
 				33FFB89918C0F8A300BF818C /* UIColor+WHMessagesView.m in Sources */,
 				88A3FC59182E0EA000705327 /* NSString+WHMessages.m in Sources */,
 				331BFAE618C0FDDC00D902B3 /* WHSimpleMessageCell.m in Sources */,
+				3370290318F3EC8B00D04704 /* WHCollectionViewFlowLayout.m in Sources */,
+				3370290418F3EC8B00D04704 /* WHSpringFlowLayout.m in Sources */,
 				33FFB88C18C0F81000BF818C /* WHDemoBubbleView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

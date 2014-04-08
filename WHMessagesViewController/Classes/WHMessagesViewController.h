@@ -130,26 +130,29 @@
  */
 @interface WHMessagesViewController : UICollectionViewController <UICollectionViewDataSource, UICollectionViewDelegate, UITextViewDelegate>
 
-
+/**
+ *  Set YES to force the collection view to scroll to the last cell on appearance and when a new message arrives.
+ *  Default is YES.
+ */
 @property (assign, nonatomic) BOOL automaticallyScrollsToMostRecentMessage;
 
 
 /**
  *  The object that acts as the delegate of the receiving messages view.
  */
-@property(weak, nonatomic) id <WHMessagesViewDelegate> messageDelegate;
+@property (weak, nonatomic) id <WHMessagesViewDelegate> messageDelegate;
 
 
 /**
  *  The object that acts as the data source of receiving messages view.
  */
-@property(weak, nonatomic) id <WHMessagesViewDataSource> messageDataSource;
+@property (weak, nonatomic) id <WHMessagesViewDataSource> messageDataSource;
 
 
 /**
  *  Returns the message input view with which new messages are composed.
  */
-@property(weak, nonatomic, readonly) WHMessageInputView *messageInputView;
+@property (weak, nonatomic, readonly) WHMessageInputView *messageInputView;
 
 
 #pragma mark - Messages view controller
@@ -182,22 +185,6 @@
  *  @param animated `YES` if you want to animate scrolling, `NO` if it should be immediate.
  */
 - (void)scrollToLastCellAnimated:(BOOL)animated;
-
-
-/**
- *  Scrolls the receiver until a row identified by index path is at a particular location on the screen. 
- *
- *  This method respects the delegate method `shouldPreventScrollToBottomWhileUserScrolling`. 
- *
- *  @see WHMessagesViewDelegate.
- *
- *  @param indexPath An index path that identifies a row in the table view by its row index and its section index.
- *  @param position  A constant defined in `UICollectionViewScrollPosition` that identifies a relative position in the receiving table view.
- *  @param animated  `YES` if you want to animate the change in position, `NO` if it should be immediate.
- */
-- (void)scrollToRowAtIndexPath:(NSIndexPath *)indexPath
-              atScrollPosition:(UICollectionViewScrollPosition)position
-                      animated:(BOOL)animated;
 
 
 /**
